@@ -1,70 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Icon from "@/components/ui/icon";
 
-const FILMS = [
-  {
-    id: 1,
-    title: "Анна и Михаил",
-    subtitle: "История двух молчаний",
-    year: "2024",
-    location: "Флоренция",
-    duration: "18 мин",
-    img: "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/files/03fe78ec-eb87-47df-a119-c38440bc39b5.jpg",
-    tag: "DRAMA",
-  },
-  {
-    id: 2,
-    title: "Катя и Роман",
-    subtitle: "Без слов",
-    year: "2024",
-    location: "Сочи",
-    duration: "22 мин",
-    img: "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/files/459a2edb-4aa0-4538-abb3-951df4b3637c.jpg",
-    tag: "ROMANCE",
-  },
-  {
-    id: 3,
-    title: "Вера и Дмитрий",
-    subtitle: "Точка невозврата",
-    year: "2023",
-    location: "Москва",
-    duration: "31 мин",
-    img: "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/files/94524046-8cd7-4dd3-a6c8-e8ca6a314b65.jpg",
-    tag: "PORTRAIT",
-  },
-];
-
-const STEPS = [
-  {
-    num: "01",
-    title: "Встреча",
-    text: "Разговариваем. Не о декоре и цветах - о вас. Кто вы друг для друга. Что важно. Что страшно. Из этого растёт сценарий.",
-  },
-  {
-    num: "02",
-    title: "Сценарий",
-    text: "Я пишу структуру фильма до съёмки. Ключевые сцены, эмоциональные точки, последовательность. Никакого экспромта на площадке.",
-  },
-  {
-    num: "03",
-    title: "Съёмка",
-    text: "Работаю как режиссёр, а не оператор. Выстраиваю мизансцены, работаю с людьми в кадре, управляю ритмом дня.",
-  },
-  {
-    num: "04",
-    title: "Монтаж",
-    text: "Собираю фильм по законам драматургии. Арка, кульминация, финал. Не нарезка под музыку - полноценное кино.",
-  },
-];
-
-function useInView(threshold = 0.15) {
+function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setInView(true); },
+      ([e]) => { if (e.isIntersecting) setInView(true); },
       { threshold }
     );
     obs.observe(el);
@@ -73,403 +17,676 @@ function useInView(threshold = 0.15) {
   return { ref, inView };
 }
 
-export default function Index() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [formData, setFormData] = useState({ name: "", phone: "", story: "" });
-  const [sent, setSent] = useState(false);
-  const [activeFilm, setActiveFilm] = useState<number | null>(null);
+const PHOTO = "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/bucket/b94399a3-970b-4694-8715-a493879d163e.jpg";
 
-  const approachRef = useInView();
-  const stepsRef = useInView(0.05);
-  const filmsRef = useInView(0.1);
-  const statsRef = useInView(0.2);
+export default function Index() {
+  const [form, setForm] = useState({ name: "", contact: "", note: "" });
+  const [sent, setSent] = useState(false);
+  const [tick, setTick] = useState(0);
+
+  const heroRef = useInView(0.01);
+  const aboutRef = useInView(0.1);
+  const packageRef = useInView(0.1);
   const contactRef = useInView(0.1);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSent(true);
-  };
+  useEffect(() => {
+    const id = setInterval(() => setTick(t => t + 1), 80);
+    return () => clearInterval(id);
+  }, []);
+
+  const chars = "РЕЖИССЁР КИНО СВАДЬБА СЦЕНАРИЙ ДРАМА МОНТАЖ".split(" ");
+  const scramble = chars[tick % chars.length];
 
   return (
-    <div className="bg-[#0A0A0A] text-white min-h-screen overflow-x-hidden">
+    <div style={{ background: "#080808", color: "#F0EDE6", fontFamily: "'Cormorant Garamond', serif", overflowX: "hidden" }}>
 
-      {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between">
-        <div className="bg-[#0A0A0A]/60 backdrop-blur-sm absolute inset-0 pointer-events-none" />
-        <span className="font-oswald text-[11px] tracking-[0.35em] text-[#B8973E] uppercase relative z-10">
-          АРТЁМ СОКОЛОВ
-        </span>
-        <div className="hidden md:flex gap-10 relative z-10">
-          {["Подход", "Портфолио", "Контакт"].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="font-mono text-[10px] tracking-[0.2em] text-white/40 hover:text-[#B8973E] transition-colors duration-300 uppercase"
-            >
-              {item}
-            </a>
-          ))}
-        </div>
-        <button
-          className="md:hidden relative z-10 text-white/60 hover:text-white"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <Icon name={menuOpen ? "X" : "Menu"} size={20} />
-        </button>
-      </nav>
-
-      {/* MOBILE MENU */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#0A0A0A]/95 backdrop-blur-md flex flex-col items-center justify-center gap-10">
-          {["Подход", "Портфолио", "Контакт"].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              onClick={() => setMenuOpen(false)}
-              className="font-cormorant text-4xl font-light text-white/80 hover:text-[#B8973E] transition-colors"
-            >
-              {item}
-            </a>
-          ))}
-        </div>
-      )}
-
-      {/* HERO */}
-      <section className="relative h-screen flex items-end overflow-hidden">
-        <div className="absolute inset-0 bg-[#0A0A0A]">
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              backgroundImage: `url(https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/files/03fe78ec-eb87-47df-a119-c38440bc39b5.jpg)`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              filter: "grayscale(40%) contrast(1.1)",
-            }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/60 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/80 via-transparent to-transparent" />
-        </div>
-
-        {/* Letterbox lines */}
-        <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#B8973E]/20" />
-        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#B8973E]/20" />
-
-        <div className="relative z-10 px-6 md:px-16 pb-20 md:pb-28 max-w-5xl">
-          <div className="mb-6 flex items-center gap-4">
-            <div className="h-px w-12 bg-[#B8973E]" />
-            <span className="font-mono text-[10px] tracking-[0.3em] text-[#B8973E] uppercase">
-              Свадебный режиссер · Москва
-            </span>
+      {/* ── HERO ── */}
+      <section
+        ref={heroRef.ref}
+        style={{
+          minHeight: "100vh",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          position: "relative",
+          overflow: "hidden",
+        }}
+        className="hero-grid"
+      >
+        {/* Left — text */}
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          padding: "clamp(32px,6vw,80px)",
+          paddingBottom: "clamp(40px,7vw,96px)",
+          position: "relative",
+          zIndex: 2,
+        }}>
+          {/* top label */}
+          <div style={{
+            position: "absolute",
+            top: "clamp(20px,3vw,36px)",
+            left: "clamp(32px,6vw,80px)",
+            fontFamily: "'Oswald', sans-serif",
+            fontSize: "10px",
+            letterSpacing: "0.35em",
+            color: "#B8973E",
+          }}>
+            ЕВГЕНИЙ ВОЛОДИН
           </div>
-          <h1 className="font-cormorant font-light leading-[0.92] text-[clamp(52px,10vw,130px)] text-white mb-8">
-            Твоя свадьба -<br />
-            <em className="text-[#B8973E] not-italic">настоящее кино</em>
+
+          {/* tape number */}
+          <div style={{
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: "clamp(11px,1vw,13px)",
+            color: "rgba(255,255,255,0.15)",
+            letterSpacing: "0.2em",
+            marginBottom: "24px",
+          }}>
+            FILM_001 · 35MM · {scramble}
+          </div>
+
+          <h1 style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "clamp(52px,8.5vw,120px)",
+            fontWeight: 300,
+            lineHeight: 0.88,
+            margin: 0,
+            marginBottom: "32px",
+          }}>
+            Режиссёр<br />
+            <em style={{ color: "#B8973E", fontStyle: "normal" }}>вашего</em><br />
+            свадебного<br />
+            кино
           </h1>
-          <p className="font-oswald font-light text-[clamp(13px,1.8vw,17px)] tracking-[0.12em] text-white/50 max-w-xl uppercase leading-relaxed">
-            Я не снимаю события.<br className="hidden md:block" />
-            Я выстраиваю сюжет - с началом, кульминацией и финалом.
+
+          <p style={{
+            fontFamily: "'Oswald', sans-serif",
+            fontWeight: 200,
+            fontSize: "clamp(12px,1.4vw,15px)",
+            letterSpacing: "0.18em",
+            color: "rgba(240,237,230,0.45)",
+            maxWidth: "380px",
+            lineHeight: 1.8,
+            marginBottom: "48px",
+            textTransform: "uppercase",
+          }}>
+            Липецк · Воронеж · Москва
           </p>
-          <div className="mt-12 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start">
+
+          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
             <a
               href="#контакт"
-              className="group inline-flex items-center gap-3 bg-[#B8973E] text-[#0A0A0A] px-8 py-4 font-oswald text-[11px] tracking-[0.25em] uppercase hover:bg-[#D4AF6A] transition-colors duration-300"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                background: "#B8973E",
+                color: "#080808",
+                padding: "16px 32px",
+                fontFamily: "'Oswald', sans-serif",
+                fontSize: "11px",
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                transition: "background 0.3s",
+              }}
+              onMouseOver={e => (e.currentTarget.style.background = "#D4AF6A")}
+              onMouseOut={e => (e.currentTarget.style.background = "#B8973E")}
             >
-              Обсудить сценарий
-              <Icon name="ArrowRight" size={14} className="group-hover:translate-x-1 transition-transform" />
+              Обсудить фильм
+              <Icon name="ArrowRight" size={13} />
             </a>
             <a
-              href="#портфолио"
-              className="inline-flex items-center gap-3 border border-white/20 text-white/60 px-8 py-4 font-oswald text-[11px] tracking-[0.25em] uppercase hover:border-[#B8973E]/50 hover:text-white/80 transition-all duration-300"
+              href="#обо-мне"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                border: "1px solid rgba(255,255,255,0.15)",
+                color: "rgba(240,237,230,0.5)",
+                padding: "16px 32px",
+                fontFamily: "'Oswald', sans-serif",
+                fontSize: "11px",
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                transition: "all 0.3s",
+              }}
+              onMouseOver={e => { e.currentTarget.style.borderColor = "rgba(184,151,62,0.5)"; e.currentTarget.style.color = "#F0EDE6"; }}
+              onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; e.currentTarget.style.color = "rgba(240,237,230,0.5)"; }}
             >
-              Смотреть фильмы
+              Обо мне
             </a>
           </div>
         </div>
 
-        {/* Scroll hint */}
-        <div className="absolute bottom-8 right-8 md:right-16 flex flex-col items-center gap-3 opacity-30">
-          <div className="w-px h-16 bg-gradient-to-b from-white/60 to-transparent" />
-        </div>
-      </section>
+        {/* Right — photo */}
+        <div style={{ position: "relative", overflow: "hidden" }}>
+          <img
+            src={PHOTO}
+            alt="Евгений Володин"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center top",
+              filter: "grayscale(15%) contrast(1.05)",
+              display: "block",
+            }}
+          />
+          {/* gradient overlay left */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to right, #080808 0%, transparent 30%)",
+          }} />
+          {/* gradient overlay bottom */}
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to top, #080808 0%, transparent 40%)",
+          }} />
 
-      {/* STATS */}
-      <section id="подход" ref={statsRef.ref}>
-        <div className="border-y border-[#2A2A2A] grid grid-cols-2 md:grid-cols-4">
-          {[
-            { num: "5+", label: "лет в кино" },
-            { num: "60+", label: "свадебных фильмов" },
-            { num: "100%", label: "предпродакшн" },
-            { num: "4K", label: "RAW съёмка" },
-          ].map((stat, i) => (
-            <div
-              key={i}
-              className={`px-8 py-10 border-[#2A2A2A] ${i < 3 ? "border-r" : ""} ${statsRef.inView ? "animate-fade-in-up" : "opacity-0"}`}
-              style={{ animationDelay: `${i * 0.15}s`, animationFillMode: "forwards" }}
-            >
-              <div className="font-cormorant text-[clamp(36px,5vw,56px)] font-light text-[#B8973E] leading-none">
-                {stat.num}
-              </div>
-              <div className="font-mono text-[10px] tracking-[0.2em] text-white/30 uppercase mt-2">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* APPROACH */}
-      <section
-        id="approach"
-        ref={approachRef.ref}
-        className="px-6 md:px-16 py-28 md:py-40 max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24"
-      >
-        <div className={approachRef.inView ? "animate-fade-in-up" : "opacity-0"} style={{ animationFillMode: "forwards" }}>
-          <div className="mb-8 flex items-center gap-4">
-            <div className="h-px w-8 bg-[#B8973E]" />
-            <span className="font-mono text-[10px] tracking-[0.3em] text-[#B8973E] uppercase">Подход</span>
+          {/* floating tag */}
+          <div style={{
+            position: "absolute",
+            bottom: "clamp(24px,4vw,56px)",
+            right: "clamp(24px,4vw,56px)",
+            border: "1px solid rgba(184,151,62,0.4)",
+            padding: "16px 24px",
+            backdropFilter: "blur(8px)",
+            background: "rgba(8,8,8,0.5)",
+          }}>
+            <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.3em", color: "#B8973E", marginBottom: "6px" }}>DIRECTOR</div>
+            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "20px", fontWeight: 300, color: "#F0EDE6" }}>5 лет в кино</div>
           </div>
-          <h2 className="font-cormorant font-light text-[clamp(36px,5vw,64px)] leading-[1.05] text-white mb-8">
-            Я снимаю свадьбы<br />
-            <em className="text-white/50 not-italic">как режиссёр-постановщик</em>
-          </h2>
-          <div className="h-px bg-[#2A2A2A] my-8" />
-          <p className="font-cormorant text-[clamp(17px,1.8vw,21px)] text-white/60 leading-relaxed font-light">
-            Пять лет на съёмочных площадках. Путь от оператора до режиссёра. За это время я понял одно - техника вторична. Главное - это идея, психология людей в кадре и умение выстраивать сюжет.
+        </div>
+
+        {/* bottom letterbox line */}
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "2px", background: "linear-gradient(to right, #B8973E, transparent 60%)" }} />
+      </section>
+
+      {/* ── ABOUT ── */}
+      <section
+        id="обо-мне"
+        ref={aboutRef.ref}
+        style={{
+          padding: "clamp(64px,10vw,140px) clamp(24px,6vw,80px)",
+          maxWidth: "1400px",
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1fr 1.2fr",
+          gap: "clamp(40px,6vw,100px)",
+          alignItems: "center",
+        }}
+        className="about-grid"
+      >
+        {/* big quote number */}
+        <div style={{ position: "relative" }}>
+          <div style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "clamp(120px,18vw,240px)",
+            fontWeight: 300,
+            color: "rgba(184,151,62,0.07)",
+            lineHeight: 1,
+            position: "absolute",
+            top: "-40px",
+            left: "-20px",
+            userSelect: "none",
+            pointerEvents: "none",
+          }}>
+            5
+          </div>
+          <div style={{
+            position: "relative",
+            zIndex: 1,
+            opacity: aboutRef.inView ? 1 : 0,
+            transform: aboutRef.inView ? "translateY(0)" : "translateY(40px)",
+            transition: "all 1s ease",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "32px" }}>
+              <div style={{ width: "32px", height: "1px", background: "#B8973E" }} />
+              <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "10px", letterSpacing: "0.35em", color: "#B8973E" }}>ОБО МНЕ</span>
+            </div>
+            <h2 style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(32px,4vw,54px)",
+              fontWeight: 300,
+              lineHeight: 1.1,
+              marginBottom: "32px",
+              color: "#F0EDE6",
+            }}>
+              Евгений Володин
+            </h2>
+            <div style={{ width: "48px", height: "1px", background: "rgba(255,255,255,0.1)", marginBottom: "32px" }} />
+            <p style={{
+              fontSize: "clamp(17px,1.8vw,22px)",
+              fontWeight: 300,
+              lineHeight: 1.75,
+              color: "rgba(240,237,230,0.65)",
+              fontStyle: "italic",
+            }}>
+              "За 5 лет я прошел весь цикл видеопроизводства - от технического оператора до режиссера. Я понял одну вещь. Зрителя не цепляет просто красивая картинка, ему нужен смысл."
+            </p>
+          </div>
+        </div>
+
+        <div style={{
+          opacity: aboutRef.inView ? 1 : 0,
+          transform: aboutRef.inView ? "translateY(0)" : "translateY(40px)",
+          transition: "all 1s ease 0.25s",
+        }}>
+          <p style={{
+            fontSize: "clamp(16px,1.6vw,19px)",
+            fontWeight: 300,
+            lineHeight: 1.9,
+            color: "rgba(240,237,230,0.55)",
+            marginBottom: "40px",
+          }}>
+            На моих съёмках вы не позируете для шаблонных кадров - вы попадаете в настоящее кино. Я создаю атмосферу, где вы чувствуете себя главными героями масштабного фильма.
           </p>
-        </div>
-        <div className={`space-y-8 ${approachRef.inView ? "animate-fade-in-up" : "opacity-0"}`} style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
-          {[
-            {
-              icon: "FileText",
-              title: "Сценарная работа",
-              text: "До съёмки мы встречаемся и разговариваем. Я выясняю, что за история стоит за вашим браком. Строю структуру фильма. У каждой свадьбы есть своя тема - я её нахожу.",
-            },
-            {
-              icon: "Users",
-              title: "Работа с парой",
-              text: "Я не прошу вас \"быть собой\". Я создаю условия, в которых вы не можете быть никем другим. Это режиссёрская работа, а не оператора.",
-            },
-            {
-              icon: "Layers",
-              title: "Драматургия",
-              text: "Каждый фильм имеет арку. Напряжение нарастает, разрядка случается в нужный момент. Зрители вашего фильма проживают его - не просто смотрят.",
-            },
-          ].map((item, i) => (
-            <div key={i} className="flex gap-6 group">
-              <div className="w-10 h-10 border border-[#B8973E]/30 flex items-center justify-center flex-shrink-0 group-hover:border-[#B8973E] transition-colors mt-1">
-                <Icon name={item.icon as "FileText"} size={16} className="text-[#B8973E]" />
-              </div>
-              <div>
-                <h3 className="font-oswald text-[13px] tracking-[0.15em] uppercase text-white mb-2">{item.title}</h3>
-                <p className="font-cormorant text-[16px] text-white/50 leading-relaxed font-light">{item.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+          <p style={{
+            fontSize: "clamp(16px,1.6vw,19px)",
+            fontWeight: 300,
+            lineHeight: 1.9,
+            color: "rgba(240,237,230,0.55)",
+            marginBottom: "48px",
+          }}>
+            Вы просто проживаете этот день, а я выстраиваю вокруг вас драматургию и сюжет. Моя задача - сделать так, чтобы вы кайфанули от процесса, а на выходе получили глубокое и стильное кино про себя.
+          </p>
 
-      {/* PROCESS */}
-      <section
-        ref={stepsRef.ref}
-        className="border-t border-[#2A2A2A] px-6 md:px-16 py-28 bg-[#0D0D0D]"
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-16 flex items-center gap-4">
-            <div className="h-px w-8 bg-[#B8973E]" />
-            <span className="font-mono text-[10px] tracking-[0.3em] text-[#B8973E] uppercase">Процесс</span>
-          </div>
-          <h2 className="font-cormorant font-light text-[clamp(32px,4vw,52px)] text-white mb-16 max-w-2xl leading-tight">
-            Как делается кино -<br />
-            <em className="text-white/40 not-italic">шаг за шагом</em>
-          </h2>
-          <div className="grid md:grid-cols-4 gap-0 border border-[#2A2A2A]">
-            {STEPS.map((step, i) => (
-              <div
-                key={i}
-                className={`p-8 border-[#2A2A2A] ${i < 3 ? "md:border-r" : ""} ${i > 0 ? "border-t md:border-t-0" : ""} hover:bg-[#161616] transition-colors duration-300 ${stepsRef.inView ? "animate-fade-in-up" : "opacity-0"}`}
-                style={{ animationDelay: `${i * 0.15}s`, animationFillMode: "forwards" }}
-              >
-                <div className="font-mono text-[clamp(28px,3vw,44px)] text-[#B8973E]/20 font-light mb-6">{step.num}</div>
-                <h3 className="font-oswald text-[14px] tracking-[0.15em] uppercase text-white mb-4">{step.title}</h3>
-                <p className="font-cormorant text-[15px] text-white/40 leading-relaxed font-light">{step.text}</p>
+          {/* stats row */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1px", background: "#2A2A2A" }}>
+            {[
+              { n: "5+", l: "лет в кино" },
+              { n: "60+", l: "фильмов" },
+              { n: "3", l: "города" },
+            ].map((s, i) => (
+              <div key={i} style={{ background: "#080808", padding: "24px 20px" }}>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,4vw,48px)", fontWeight: 300, color: "#B8973E", lineHeight: 1 }}>{s.n}</div>
+                <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.2em", color: "rgba(255,255,255,0.25)", marginTop: "8px", textTransform: "uppercase" }}>{s.l}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PORTFOLIO */}
-      <section id="портфолио" ref={filmsRef.ref} className="px-6 md:px-16 py-28 md:py-40 max-w-7xl mx-auto">
-        <div className="mb-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="h-px w-8 bg-[#B8973E]" />
-            <span className="font-mono text-[10px] tracking-[0.3em] text-[#B8973E] uppercase">Портфолио</span>
+      {/* ── ALL INCLUSIVE ── */}
+      <section
+        id="под-ключ"
+        ref={packageRef.ref}
+        style={{
+          borderTop: "1px solid #1A1A1A",
+          borderBottom: "1px solid #1A1A1A",
+          background: "#0C0C0C",
+          padding: "clamp(64px,10vw,120px) clamp(24px,6vw,80px)",
+        }}
+      >
+        <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "64px" }}>
+            <div style={{ width: "32px", height: "1px", background: "#B8973E" }} />
+            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "10px", letterSpacing: "0.35em", color: "#B8973E" }}>ВСЁ ПОД КЛЮЧ</span>
           </div>
-          <span className="font-mono text-[10px] tracking-[0.2em] text-white/20 uppercase hidden md:block">
-            Избранные работы · 2023-2024
-          </span>
-        </div>
 
-        <h2 className="font-cormorant font-light text-[clamp(32px,4vw,52px)] text-white mb-16 leading-tight">
-          Свадебные фильмы
-        </h2>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "clamp(40px,6vw,80px)",
+            alignItems: "center",
+            marginBottom: "64px",
+          }}
+          className="package-grid"
+          >
+            <div style={{
+              opacity: packageRef.inView ? 1 : 0,
+              transform: packageRef.inView ? "translateY(0)" : "translateY(40px)",
+              transition: "all 1s ease",
+            }}>
+              <h2 style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(36px,5.5vw,72px)",
+                fontWeight: 300,
+                lineHeight: 1.0,
+                color: "#F0EDE6",
+                marginBottom: "24px",
+              }}>
+                Пара побывает<br />
+                <em style={{ color: "#B8973E", fontStyle: "normal" }}>в настоящем кино</em>
+              </h2>
+              <p style={{
+                fontSize: "clamp(16px,1.6vw,19px)",
+                fontWeight: 300,
+                lineHeight: 1.85,
+                color: "rgba(240,237,230,0.5)",
+                maxWidth: "440px",
+              }}>
+                Не просто съёмка. Полноценный кинопроцесс - от идеи до финального фильма. Вы ничего не придумываете сами. Я веду вас от первой встречи до монтажа.
+              </p>
+            </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {FILMS.map((film, i) => (
-            <div
-              key={film.id}
-              className={`group cursor-pointer ${filmsRef.inView ? "animate-fade-in-up" : "opacity-0"}`}
-              style={{ animationDelay: `${i * 0.2}s`, animationFillMode: "forwards" }}
-              onMouseEnter={() => setActiveFilm(film.id)}
-              onMouseLeave={() => setActiveFilm(null)}
-            >
-              <div className="relative overflow-hidden aspect-[3/4]">
-                <img
-                  src={film.img}
-                  alt={film.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  style={{ filter: "grayscale(20%) contrast(1.05)" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-16 h-16 border border-[#B8973E] rounded-full flex items-center justify-center backdrop-blur-sm bg-black/20">
-                    <Icon name="Play" size={20} className="text-[#B8973E] ml-1" />
+            <div style={{
+              opacity: packageRef.inView ? 1 : 0,
+              transform: packageRef.inView ? "translateY(0)" : "translateY(40px)",
+              transition: "all 1s ease 0.2s",
+            }}>
+              {[
+                { icon: "MessageCircle", step: "01", title: "Знакомство", text: "Разговариваем. Я узнаю вашу историю - из неё родится сценарий." },
+                { icon: "FileText", step: "02", title: "Сценарий", text: "Я пишу структуру фильма до съёмки. Сцены, эмоциональные точки, логика монтажа." },
+                { icon: "Film", step: "03", title: "Съёмка", text: "Вы живёте день. Я работаю режиссёром - выстраиваю кадры, управляю атмосферой." },
+                { icon: "Scissors", step: "04", title: "Кино готово", text: "Получаете фильм с настоящей драматургией. Не нарезку - полноценное кино." },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    padding: "20px 0",
+                    borderBottom: i < 3 ? "1px solid #1A1A1A" : "none",
+                  }}
+                >
+                  <div style={{
+                    width: "40px",
+                    height: "40px",
+                    border: "1px solid rgba(184,151,62,0.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}>
+                    <Icon name={item.icon as "Film"} size={15} style={{ color: "#B8973E" }} />
+                  </div>
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
+                      <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", color: "rgba(184,151,62,0.5)", letterSpacing: "0.2em" }}>{item.step}</span>
+                      <span style={{ fontFamily: "'Oswald', sans-serif", fontSize: "13px", letterSpacing: "0.12em", textTransform: "uppercase", color: "#F0EDE6" }}>{item.title}</span>
+                    </div>
+                    <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "15px", color: "rgba(240,237,230,0.4)", lineHeight: 1.6, margin: 0 }}>{item.text}</p>
                   </div>
                 </div>
-                <div className="absolute top-4 left-4">
-                  <span className="font-mono text-[9px] tracking-[0.3em] bg-[#B8973E] text-[#0A0A0A] px-3 py-1">
-                    {film.tag}
-                  </span>
-                </div>
-                <div className="absolute bottom-6 left-6 right-6">
-                  <p className="font-mono text-[10px] tracking-[0.2em] text-[#B8973E] uppercase mb-2">
-                    {film.year} · {film.location}
-                  </p>
-                  <h3 className="font-cormorant text-2xl font-light text-white leading-tight">{film.title}</h3>
-                  <p className="font-cormorant text-[15px] text-white/50 italic mt-1">{film.subtitle}</p>
-                </div>
-              </div>
-              <div className="border border-[#2A2A2A] border-t-0 px-6 py-4 flex items-center justify-between">
-                <span className="font-mono text-[10px] tracking-[0.2em] text-white/30">{film.duration}</span>
-                <span className={`font-mono text-[10px] tracking-[0.2em] uppercase transition-colors duration-300 ${activeFilm === film.id ? "text-[#B8973E]" : "text-white/20"}`}>
-                  Смотреть фильм
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CONTACT */}
-      <section id="контакт" ref={contactRef.ref} className="border-t border-[#2A2A2A] bg-[#0D0D0D] px-6 md:px-16 py-28 md:py-40">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 md:gap-24 items-start">
-          <div className={contactRef.inView ? "animate-fade-in-up" : "opacity-0"} style={{ animationFillMode: "forwards" }}>
-            <div className="mb-8 flex items-center gap-4">
-              <div className="h-px w-8 bg-[#B8973E]" />
-              <span className="font-mono text-[10px] tracking-[0.3em] text-[#B8973E] uppercase">Контакт</span>
-            </div>
-            <h2 className="font-cormorant font-light text-[clamp(36px,5vw,64px)] leading-[1.05] text-white mb-8">
-              Обсудим сценарий<br />
-              <em className="text-white/40 not-italic">вашего фильма</em>
-            </h2>
-            <p className="font-cormorant text-[clamp(16px,1.6vw,19px)] text-white/40 leading-relaxed font-light max-w-sm">
-              Расскажите, кто вы. Откуда. Что за история привела вас к браку. Мне важно понять - смогу ли я снять именно ваше кино.
-            </p>
-            <div className="mt-12 space-y-4">
-              <a href="tel:+79991234567" className="flex items-center gap-4 group">
-                <Icon name="Phone" size={14} className="text-[#B8973E]" />
-                <span className="font-mono text-[12px] tracking-[0.15em] text-white/40 group-hover:text-white/70 transition-colors">
-                  +7 999 123-45-67
-                </span>
-              </a>
-              <a href="https://t.me/artem" className="flex items-center gap-4 group">
-                <Icon name="Send" size={14} className="text-[#B8973E]" />
-                <span className="font-mono text-[12px] tracking-[0.15em] text-white/40 group-hover:text-white/70 transition-colors">
-                  @artem_sokolov_film
-                </span>
-              </a>
+              ))}
             </div>
           </div>
 
-          <div className={contactRef.inView ? "animate-fade-in-up" : "opacity-0"} style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}>
-            {sent ? (
-              <div className="border border-[#B8973E]/30 p-12 text-center">
-                <div className="w-14 h-14 border border-[#B8973E] flex items-center justify-center mx-auto mb-6">
-                  <Icon name="Check" size={20} className="text-[#B8973E]" />
-                </div>
-                <h3 className="font-cormorant text-3xl font-light text-white mb-3">Заявка получена</h3>
-                <p className="font-cormorant text-[16px] text-white/40 font-light">
-                  Свяжусь в течение 24 часов.
-                </p>
+          {/* Wide promo strip */}
+          <div style={{
+            border: "1px solid rgba(184,151,62,0.2)",
+            padding: "clamp(28px,4vw,48px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "24px",
+            flexWrap: "wrap",
+            background: "rgba(184,151,62,0.03)",
+            opacity: packageRef.inView ? 1 : 0,
+            transition: "opacity 1s ease 0.4s",
+          }}>
+            <div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(22px,3vw,34px)", fontWeight: 300, color: "#F0EDE6", marginBottom: "8px" }}>
+                Вы ничего не организуете сами
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block font-mono text-[10px] tracking-[0.3em] text-white/30 uppercase mb-3">
-                    Имя
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Как вас зовут?"
-                    className="w-full bg-transparent border border-[#2A2A2A] focus:border-[#B8973E]/60 px-5 py-4 font-cormorant text-[17px] text-white placeholder-white/20 outline-none transition-colors duration-300"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block font-mono text-[10px] tracking-[0.3em] text-white/30 uppercase mb-3">
-                    Телефон или Telegram
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+7 или @username"
-                    className="w-full bg-transparent border border-[#2A2A2A] focus:border-[#B8973E]/60 px-5 py-4 font-cormorant text-[17px] text-white placeholder-white/20 outline-none transition-colors duration-300"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block font-mono text-[10px] tracking-[0.3em] text-white/30 uppercase mb-3">
-                    Расскажите о себе
-                  </label>
-                  <textarea
-                    value={formData.story}
-                    onChange={(e) => setFormData({ ...formData, story: e.target.value })}
-                    placeholder="Кто вы. Дата свадьбы. Что важно для вас в фильме..."
-                    rows={5}
-                    className="w-full bg-transparent border border-[#2A2A2A] focus:border-[#B8973E]/60 px-5 py-4 font-cormorant text-[17px] text-white placeholder-white/20 outline-none transition-colors duration-300 resize-none"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-[#B8973E] hover:bg-[#D4AF6A] text-[#0A0A0A] py-5 font-oswald text-[11px] tracking-[0.3em] uppercase transition-colors duration-300 flex items-center justify-center gap-3 group"
-                >
-                  Отправить заявку
-                  <Icon name="ArrowRight" size={14} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-                <p className="font-mono text-[9px] tracking-[0.15em] text-white/20 text-center uppercase">
-                  Отвечаю лично. Без менеджеров.
-                </p>
-              </form>
-            )}
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "11px", letterSpacing: "0.2em", color: "rgba(184,151,62,0.7)", textTransform: "uppercase" }}>
+                Полное ведение · Предпродакшн включён · Без доп. оплат
+              </div>
+            </div>
+            <a
+              href="#контакт"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                background: "#B8973E",
+                color: "#080808",
+                padding: "16px 32px",
+                fontFamily: "'Oswald', sans-serif",
+                fontSize: "11px",
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                flexShrink: 0,
+                transition: "background 0.3s",
+              }}
+              onMouseOver={e => (e.currentTarget.style.background = "#D4AF6A")}
+              onMouseOut={e => (e.currentTarget.style.background = "#B8973E")}
+            >
+              Начать
+              <Icon name="ArrowRight" size={13} />
+            </a>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-[#2A2A2A] px-6 md:px-16 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-        <span className="font-mono text-[10px] tracking-[0.2em] text-white/20 uppercase">
-          © 2024 Артём Соколов
+      {/* ── CONTACT ── */}
+      <section
+        id="контакт"
+        ref={contactRef.ref}
+        style={{
+          padding: "clamp(64px,10vw,120px) clamp(24px,6vw,80px)",
+          maxWidth: "1400px",
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "clamp(40px,6vw,100px)",
+          alignItems: "start",
+        }}
+        className="contact-grid"
+      >
+        <div style={{
+          opacity: contactRef.inView ? 1 : 0,
+          transform: contactRef.inView ? "translateY(0)" : "translateY(40px)",
+          transition: "all 1s ease",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "40px" }}>
+            <div style={{ width: "32px", height: "1px", background: "#B8973E" }} />
+            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "10px", letterSpacing: "0.35em", color: "#B8973E" }}>КОНТАКТ</span>
+          </div>
+          <h2 style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "clamp(36px,5vw,64px)",
+            fontWeight: 300,
+            lineHeight: 1.05,
+            color: "#F0EDE6",
+            marginBottom: "24px",
+          }}>
+            Обсудим<br />
+            <em style={{ color: "rgba(240,237,230,0.35)", fontStyle: "normal" }}>сценарий вашего кино</em>
+          </h2>
+          <p style={{
+            fontSize: "clamp(15px,1.5vw,18px)",
+            fontWeight: 300,
+            lineHeight: 1.85,
+            color: "rgba(240,237,230,0.4)",
+            maxWidth: "360px",
+            marginBottom: "48px",
+          }}>
+            Расскажите, кто вы. Дата свадьбы. Город. Я отвечаю лично - без менеджеров.
+          </p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            {[
+              { icon: "Phone", label: "+7 999 750-79-02", href: "tel:+79997507902" },
+              { icon: "Send", label: "@volodinevgeni", href: "https://t.me/volodinevgeni" },
+              { icon: "ExternalLink", label: "vk.com/kreeator", href: "https://vk.com/kreeator" },
+            ].map((c, i) => (
+              <a key={i} href={c.href} target="_blank" rel="noreferrer" style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "14px",
+                textDecoration: "none",
+                color: "rgba(240,237,230,0.4)",
+                fontFamily: "'IBM Plex Mono', monospace",
+                fontSize: "12px",
+                letterSpacing: "0.12em",
+                transition: "color 0.3s",
+              }}
+              onMouseOver={e => (e.currentTarget.style.color = "#B8973E")}
+              onMouseOut={e => (e.currentTarget.style.color = "rgba(240,237,230,0.4)")}
+              >
+                <Icon name={c.icon as "Phone"} size={14} style={{ color: "#B8973E", flexShrink: 0 }} />
+                {c.label}
+              </a>
+            ))}
+            <div style={{
+              marginTop: "4px",
+              display: "flex",
+              alignItems: "center",
+              gap: "14px",
+              color: "rgba(240,237,230,0.4)",
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontSize: "12px",
+              letterSpacing: "0.12em",
+            }}>
+              <Icon name="Smartphone" size={14} style={{ color: "#B8973E", flexShrink: 0 }} />
+              MAX по номеру телефона
+            </div>
+          </div>
+        </div>
+
+        {/* Form */}
+        <div style={{
+          opacity: contactRef.inView ? 1 : 0,
+          transform: contactRef.inView ? "translateY(0)" : "translateY(40px)",
+          transition: "all 1s ease 0.25s",
+        }}>
+          {sent ? (
+            <div style={{ border: "1px solid rgba(184,151,62,0.3)", padding: "56px 40px", textAlign: "center" }}>
+              <div style={{
+                width: "52px", height: "52px", border: "1px solid #B8973E",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                margin: "0 auto 24px",
+              }}>
+                <Icon name="Check" size={20} style={{ color: "#B8973E" }} />
+              </div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "28px", fontWeight: 300, color: "#F0EDE6", marginBottom: "12px" }}>Заявка получена</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "16px", color: "rgba(240,237,230,0.35)" }}>Свяжусь в течение 24 часов.</div>
+            </div>
+          ) : (
+            <form onSubmit={e => { e.preventDefault(); setSent(true); }} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              {[
+                { label: "Имя", key: "name", placeholder: "Как вас зовут?", type: "text" },
+                { label: "Телефон или Telegram", key: "contact", placeholder: "+7 или @username", type: "text" },
+              ].map((f) => (
+                <div key={f.key}>
+                  <label style={{ display: "block", fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.35em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", marginBottom: "10px" }}>
+                    {f.label}
+                  </label>
+                  <input
+                    type={f.type}
+                    value={form[f.key as keyof typeof form]}
+                    onChange={e => setForm({ ...form, [f.key]: e.target.value })}
+                    placeholder={f.placeholder}
+                    required
+                    style={{
+                      width: "100%",
+                      background: "transparent",
+                      border: "none",
+                      borderBottom: "1px solid #2A2A2A",
+                      padding: "14px 0",
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "18px",
+                      color: "#F0EDE6",
+                      outline: "none",
+                      transition: "border-color 0.3s",
+                      boxSizing: "border-box",
+                    }}
+                    onFocus={e => (e.target.style.borderColor = "rgba(184,151,62,0.5)")}
+                    onBlur={e => (e.target.style.borderColor = "#2A2A2A")}
+                  />
+                </div>
+              ))}
+              <div>
+                <label style={{ display: "block", fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.35em", color: "rgba(255,255,255,0.25)", textTransform: "uppercase", marginBottom: "10px" }}>
+                  Дата и город свадьбы
+                </label>
+                <textarea
+                  value={form.note}
+                  onChange={e => setForm({ ...form, note: e.target.value })}
+                  placeholder="Когда. Где. Что важно..."
+                  rows={3}
+                  style={{
+                    width: "100%",
+                    background: "transparent",
+                    border: "none",
+                    borderBottom: "1px solid #2A2A2A",
+                    padding: "14px 0",
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontSize: "18px",
+                    color: "#F0EDE6",
+                    outline: "none",
+                    resize: "none",
+                    transition: "border-color 0.3s",
+                    boxSizing: "border-box",
+                  }}
+                  onFocus={e => (e.target.style.borderColor = "rgba(184,151,62,0.5)")}
+                  onBlur={e => (e.target.style.borderColor = "#2A2A2A")}
+                />
+              </div>
+              <button
+                type="submit"
+                style={{
+                  width: "100%",
+                  background: "#B8973E",
+                  color: "#080808",
+                  border: "none",
+                  padding: "20px",
+                  fontFamily: "'Oswald', sans-serif",
+                  fontSize: "11px",
+                  letterSpacing: "0.35em",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  transition: "background 0.3s",
+                  marginTop: "8px",
+                }}
+                onMouseOver={e => (e.currentTarget.style.background = "#D4AF6A")}
+                onMouseOut={e => (e.currentTarget.style.background = "#B8973E")}
+              >
+                Отправить заявку
+                <Icon name="ArrowRight" size={13} />
+              </button>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.15em", color: "rgba(255,255,255,0.15)", textAlign: "center", textTransform: "uppercase" }}>
+                Отвечаю лично · Без менеджеров
+              </div>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer style={{
+        borderTop: "1px solid #1A1A1A",
+        padding: "24px clamp(24px,6vw,80px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        flexWrap: "wrap",
+        gap: "12px",
+      }}>
+        <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.2em", color: "rgba(255,255,255,0.15)", textTransform: "uppercase" }}>
+          © 2024 Евгений Володин
         </span>
-        <span className="font-mono text-[10px] tracking-[0.2em] text-white/20 uppercase">
-          Свадебный режиссер · Москва
+        <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.2em", color: "rgba(255,255,255,0.15)", textTransform: "uppercase" }}>
+          Липецк · Воронеж · Москва
         </span>
-        <span className="font-cormorant text-[13px] italic text-white/15">
+        <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "13px", fontStyle: "italic", color: "rgba(255,255,255,0.1)" }}>
           "Кино - это правда 24 кадра в секунду"
         </span>
       </footer>
+
+      {/* responsive fix */}
+      <style>{`
+        @media (max-width: 768px) {
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-grid > div:first-child { padding-top: 100px !important; min-height: 60vh; }
+          .hero-grid > div:last-child { height: 60vw; }
+          .about-grid { grid-template-columns: 1fr !important; }
+          .package-grid { grid-template-columns: 1fr !important; }
+          .contact-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }
