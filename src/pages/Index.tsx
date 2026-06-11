@@ -32,18 +32,30 @@ const VIDEOS = [
 const REVIEWS = [
   {
     name: "Дмитрий Кудинов",
+    role: "В главной роли",
+    rating: "9.8",
+    quote: "Видео хочется пересматривать снова и снова",
     text: "Мы рады, что остановили свой выбор именно на Жене, очень порадовало качество работы и процесс сотрудничества. Видео хочется неоднократно пересматривать и показать всем знакомым. Огромная благодарность за такую классную работу. Очень рекомендую Женю, не пожалеете.",
   },
   {
     name: "Анна Константа",
+    role: "В главной роли",
+    rating: "10.0",
+    quote: "Пробежали мурашки и слёзы счастья",
     text: "Обратились к Евгению по рекомендациям знакомых и ни разу не пожалели. Понял наши желания буквально с полуслова, а когда мы увидели итоговую работу - пробежали мурашки и на глазах были искренние слёзы счастья. Безумно тонко чувствует людей, составляет интересные сценарии. Мы ехали к нему из другого города и это стоило того.",
   },
   {
     name: "Максим Циклинский",
+    role: "В главной роли",
+    rating: "9.7",
+    quote: "Получилось прям как в кино",
     text: "Огромное спасибо за классный свадебный фильм, особенно за клип - просто пушка. Отдельное спасибо за терпение Евгения. Всем советую. Получилось прям как в кино.",
   },
   {
     name: "Александра Милохина",
+    role: "В главной роли",
+    rating: "9.9",
+    quote: "Он воссоздал нашу историю знакомства",
     text: "Огромное спасибо за свадебный фильм. Мы хотели что-то нестандартное и Евгений помог нам это реализовать. Он воссоздал нашу историю знакомства и отразил нашу любовь и юмор в полной мере. Было комфортно и весело, а главное - мы получили огромное удовольствие от съёмок и от итога. Все остались в восторге.",
   },
 ];
@@ -51,53 +63,69 @@ const REVIEWS = [
 const TARIFFS = [
   {
     name: "Стандарт",
-    tag: "START",
-    price: "от 40 000 ₽",
-    desc: "Съёмка свадебного дня и короткий фильм",
+    tag: "STANDARD",
+    price: "70 000 ₽",
+    desc: "Классический съёмочный день — все главные моменты свадьбы",
     items: [
-      "Съёмка в день свадьбы (до 10 часов)",
-      "Свадебный фильм до 20 мин",
-      "Сдача в течение 30 дней",
-      "Договор и полная защита",
-      "1 правка монтажа",
+      "Утро, ЗАГС, прогулка, банкет",
+      "Время работы — до 7 часов",
+      "Команда — оператор и рилсмейкер",
+      "Фильм — до 30 минут",
+      "Тизер — до 1 минуты",
+      "2-3 готовых рилса для соцсетей",
+      "Исходники — по запросу",
     ],
     highlight: false,
   },
   {
     name: "Режиссёрский",
-    tag: "BEST",
-    price: "от 70 000 ₽",
-    desc: "Полный цикл с предпродакшном и love-story в подарок",
+    tag: "DIRECTOR",
+    price: "по запросу",
+    desc: "Настоящее кино — сюжет, смыслы и работа со зрителем",
     items: [
-      "Предпродакшн + сценарий",
-      "Съёмка свадебного дня (до 12 часов)",
-      "Доп. съёмочные дни по необходимости",
-      "Свадебный фильм до 40 мин",
-      "Сдача в течение 30 дней",
-      "Договор и полная защита",
-      "2 правки монтажа",
+      "Время работы — без жёстких лимитов",
+      "Команда — 2 оператора и рилсмейкер",
+      "Съёмка с разных ракурсов — киношный объём",
+      "Глубокий фильм — до 30 минут",
+      "Динамичный клип — до 5 минут",
+      "2-3 готовых рилса для соцсетей",
+      "Исходники — по запросу",
       "Love-story в подарок 🎁",
     ],
     highlight: true,
   },
   {
     name: "Кинопроект",
-    tag: "MAX",
+    tag: "MAXIMUM",
     price: "по запросу",
-    desc: "Масштабный авторский фильм — под ключ",
+    desc: "Уровень полноценного кинопроизводства с максимальным продакшеном",
     items: [
-      "Глубокий предпродакшн",
-      "Любое кол-во съёмочных дней",
-      "Авторский свадебный фильм 60+ мин",
-      "Сдача в течение 30 дней",
-      "Договор и полная защита",
-      "Безлимитные правки",
-      "Love-story в подарок 🎁",
-      "Персональное сопровождение",
+      "Предпродакшн + сценарий + Love-story отдельным днём",
+      "Время работы — без ограничений, любое кол-во смен",
+      "Команда — режиссёр, 2 оператора, рилсмейкер, гафер",
+      "Киношный свет на банкете",
+      "Большой авторский фильм — от 40 минут",
+      "Клип — 3-5 минут",
+      "SDE-ролик — премьера прямо на банкете",
+      "5-7 рилсов для соцсетей",
+      "Ускоренная сдача · все исходники на диске",
     ],
     highlight: false,
   },
 ];
+
+const CAMEO = {
+  name: "Камерный",
+  hours: "4 часа",
+  desc: "Формат для небольших событий. Снимаем самое начало истории без суеты.",
+  items: [
+    "Утро, регистрация в ЗАГСе, прогулка",
+    "Банкет не снимаем",
+    "Время работы — 4 часа",
+    "Команда — 1 оператор",
+    "Красивый мини-фильм первой половины дня",
+  ],
+};
 
 export default function Index() {
   const [tick, setTick] = useState(0);
@@ -254,13 +282,11 @@ export default function Index() {
                         onMouseOut={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; (e.currentTarget as HTMLImageElement).style.filter = "grayscale(25%) contrast(1.05) brightness(0.85)"; }}
                       />
                       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,8,8,0.85) 0%, transparent 50%)", pointerEvents: "none" }} />
-                      <div style={{ position: "absolute", top: "16px", left: "16px", background: "#B8973E", color: "#080808", fontFamily: "'IBM Plex Mono', monospace", fontSize: "8px", letterSpacing: "0.25em", padding: "4px 10px", pointerEvents: "none" }}>{v.tag}</div>
                       <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "64px", height: "64px", borderRadius: "50%", border: "1px solid #B8973E", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(4px)", background: "rgba(8,8,8,0.3)", pointerEvents: "none" }}>
                         <Icon name="Play" size={22} style={{ color: "#B8973E", marginLeft: "3px" }} />
                       </div>
                       <div style={{ position: "absolute", bottom: "16px", left: "20px", right: "20px", textAlign: "left", pointerEvents: "none" }}>
-                        <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.2em", color: "#B8973E", marginBottom: "4px" }}>{`FILM_${String(i + 1).padStart(3, "0")}`}</div>
-                        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(18px,2vw,24px)", fontWeight: 300, color: "#F0EDE6" }}>{v.title}</div>
+                        <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "clamp(11px,1.2vw,14px)", letterSpacing: "0.25em", color: "#B8973E" }}>{`FILM_${String(i + 1).padStart(3, "0")}`}</div>
                       </div>
                     </button>
                   )}
@@ -321,7 +347,7 @@ export default function Index() {
             {[
               { icon: "FileCheck", title: "Работаю по договору", text: "Все условия фиксируются официально. Все риски на мне - клиент полностью защищён.", gold: true },
               { icon: "Clock", title: "Сдача до 30 дней", text: "Готовый фильм через месяц после свадьбы. Никаких «скоро», «жду вдохновения» и бесконечных ожиданий.", gold: false },
-              { icon: "Calendar", title: "Несколько съёмочных дней", text: "Снимаем столько, сколько нужно - не только в день свадьбы. Каждый тариф включает своё кол-во дней.", gold: false },
+              { icon: "Users", title: "Команда профессионалов", text: "Над вашим фильмом работает команда - операторы, рилсмейкер, гафер. Всё под ключ. Вы ничего не организуете сами.", gold: false },
             ].map((u, i) => (
               <div key={i} style={{ background: "#080808", padding: "clamp(28px,3vw,48px)", ...fade(uspRef.inView, i * 0.15) }}>
                 <div style={{ width: "44px", height: "44px", border: `1px solid ${u.gold ? "#B8973E" : "rgba(184,151,62,0.25)"}`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "24px" }}>
@@ -398,6 +424,40 @@ export default function Index() {
               </div>
             ))}
           </div>
+
+          {/* CAMEO — minimal day-only tariff */}
+          <div style={{
+            marginTop: "clamp(16px,2vw,24px)",
+            border: "1px dashed rgba(184,151,62,0.3)",
+            background: "#0A0A0A",
+            padding: "clamp(28px,3.5vw,44px)",
+            display: "grid",
+            gridTemplateColumns: "auto 1fr auto",
+            gap: "clamp(24px,4vw,56px)",
+            alignItems: "center",
+            ...fade(tariffsRef.inView, 0.5),
+          }} className="cameo-grid">
+            <div>
+              <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.3em", color: "rgba(184,151,62,0.6)", textTransform: "uppercase", marginBottom: "10px" }}>CAMEO</div>
+              <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: "clamp(18px,2vw,24px)", letterSpacing: "0.08em", textTransform: "uppercase", color: "#F0EDE6", marginBottom: "4px" }}>{CAMEO.name}</div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,4vw,52px)", fontWeight: 300, color: "#B8973E", lineHeight: 1 }}>{CAMEO.hours}</div>
+            </div>
+            <div>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(15px,1.5vw,18px)", color: "rgba(240,237,230,0.45)", fontStyle: "italic", marginBottom: "18px", lineHeight: 1.5 }}>{CAMEO.desc}</p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 20px" }}>
+                {CAMEO.items.map((item, j) => (
+                  <span key={j} style={{ display: "inline-flex", alignItems: "center", gap: "8px", fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(13px,1.3vw,15px)", color: "rgba(240,237,230,0.55)", fontWeight: 300 }}>
+                    <span style={{ color: "#B8973E", fontSize: "11px" }}>—</span>{item}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <a href="#контакт" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "8px", border: "1px solid rgba(184,151,62,0.4)", color: "#B8973E", padding: "14px 28px", fontFamily: "'Oswald', sans-serif", fontSize: "11px", letterSpacing: "0.25em", textTransform: "uppercase", textDecoration: "none", transition: "all 0.3s", whiteSpace: "nowrap" }}
+              onMouseOver={e => { e.currentTarget.style.background = "#B8973E"; e.currentTarget.style.color = "#080808"; }}
+              onMouseOut={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#B8973E"; }}>
+              Узнать цену <Icon name="ArrowRight" size={12} />
+            </a>
+          </div>
         </div>
       </section>
 
@@ -408,24 +468,66 @@ export default function Index() {
             <div style={{ width: "32px", height: "1px", background: "#B8973E" }} />
             <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "10px", letterSpacing: "0.35em", color: "#B8973E" }}>ОТЗЫВЫ</span>
           </div>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,5vw,64px)", fontWeight: 300, lineHeight: 1.05, color: "#F0EDE6", marginBottom: "56px" }}>
-            Что говорят пары<br />
-            <em style={{ color: "rgba(240,237,230,0.3)", fontStyle: "normal" }}>после премьеры</em>
-          </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "1px", background: "#1A1A1A" }} className="reviews-grid">
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "24px", marginBottom: "56px" }}>
+            <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,5vw,64px)", fontWeight: 300, lineHeight: 1.05, color: "#F0EDE6", margin: 0 }}>
+              Отзывы с премьер<br />
+              <em style={{ color: "rgba(240,237,230,0.3)", fontStyle: "normal" }}>главных героев</em>
+            </h2>
+            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(44px,6vw,72px)", fontWeight: 300, color: "#B8973E", lineHeight: 1 }}>9.8</div>
+              <div>
+                <div style={{ color: "#B8973E", fontSize: "13px", letterSpacing: "2px" }}>★★★★★</div>
+                <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.2em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase", marginTop: "4px" }}>средний рейтинг · 20+ пар</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "clamp(16px,2vw,24px)" }} className="reviews-grid">
             {REVIEWS.map((r, i) => (
-              <div key={i} style={{ background: "#080808", padding: "clamp(28px,3.5vw,48px)", position: "relative", ...fade(reviewsRef.inView, (i % 2) * 0.12) }}>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "80px", lineHeight: 0.6, color: "rgba(184,151,62,0.15)", height: "32px", userSelect: "none" }}>“</div>
-                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(16px,1.6vw,19px)", fontWeight: 300, lineHeight: 1.75, color: "rgba(240,237,230,0.6)", marginBottom: "28px", fontStyle: "italic" }}>
-                  {r.text}
-                </p>
-                <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", border: "1px solid rgba(184,151,62,0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Cormorant Garamond', serif", fontSize: "16px", color: "#B8973E", flexShrink: 0 }}>
-                    {r.name.charAt(0)}
+              <div key={i} style={{
+                background: "linear-gradient(160deg, #111000 0%, #0A0A0A 60%)",
+                border: "1px solid #1A1A1A",
+                position: "relative",
+                overflow: "hidden",
+                ...fade(reviewsRef.inView, (i % 2) * 0.12),
+              }}
+              onMouseOver={e => (e.currentTarget.style.borderColor = "rgba(184,151,62,0.4)")}
+              onMouseOut={e => (e.currentTarget.style.borderColor = "#1A1A1A")}
+              >
+                {/* film perforation strip */}
+                <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "22px", background: "#060606", borderRight: "1px solid #1A1A1A", display: "flex", flexDirection: "column", justifyContent: "space-around", alignItems: "center", paddingTop: "12px", paddingBottom: "12px" }}>
+                  {Array.from({ length: 7 }).map((_, k) => (
+                    <div key={k} style={{ width: "8px", height: "10px", borderRadius: "2px", background: "#161616" }} />
+                  ))}
+                </div>
+
+                <div style={{ padding: "clamp(28px,3.5vw,44px)", paddingLeft: "clamp(44px,5vw,64px)" }}>
+                  {/* header: rating + take */}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,4vw,46px)", fontWeight: 300, color: "#B8973E", lineHeight: 1 }}>{r.rating}</span>
+                      <span style={{ color: "#B8973E", fontSize: "12px", letterSpacing: "2px" }}>★★★★★</span>
+                    </div>
+                    <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.2em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>{`TAKE_${String(i + 1).padStart(2, "0")}`}</span>
                   </div>
-                  <div>
-                    <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#F0EDE6" }}>{r.name}</div>
-                    <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "8px", letterSpacing: "0.2em", color: "rgba(184,151,62,0.5)", marginTop: "3px" }}>★★★★★</div>
+
+                  {/* pull quote */}
+                  <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(22px,2.4vw,30px)", fontWeight: 300, lineHeight: 1.2, color: "#F0EDE6", marginBottom: "20px", fontStyle: "italic" }}>
+                    «{r.quote}»
+                  </p>
+
+                  {/* full text */}
+                  <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(14px,1.4vw,16px)", fontWeight: 300, lineHeight: 1.7, color: "rgba(240,237,230,0.4)", marginBottom: "28px" }}>
+                    {r.text}
+                  </p>
+
+                  {/* footer: name as credits */}
+                  <div style={{ borderTop: "1px solid #1A1A1A", paddingTop: "20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px" }}>
+                    <div>
+                      <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: "clamp(13px,1.3vw,15px)", letterSpacing: "0.1em", textTransform: "uppercase", color: "#F0EDE6" }}>{r.name}</div>
+                      <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.25em", color: "rgba(184,151,62,0.6)", textTransform: "uppercase", marginTop: "4px" }}>{r.role}</div>
+                    </div>
+                    <Icon name="BadgeCheck" size={18} style={{ color: "rgba(184,151,62,0.5)", flexShrink: 0 }} />
                   </div>
                 </div>
               </div>
@@ -497,6 +599,7 @@ export default function Index() {
           .stats-grid { grid-template-columns: 1fr !important; }
           .usp-grid { grid-template-columns: 1fr !important; }
           .tariff-grid { grid-template-columns: 1fr !important; }
+          .cameo-grid { grid-template-columns: 1fr !important; text-align: left; }
           .portfolio-grid { grid-template-columns: 1fr !important; }
           .reviews-grid { grid-template-columns: 1fr !important; }
           .contacts-grid { grid-template-columns: 1fr !important; }
