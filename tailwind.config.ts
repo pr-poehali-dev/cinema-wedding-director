@@ -7,6 +7,7 @@ export default {
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
+			"./1781209270620719328.html"
 	],
 	prefix: "",
 	theme: {
@@ -17,8 +18,24 @@ export default {
 				'2xl': '1400px'
 			}
 		},
+		fontFamily: {
+			cormorant: ['Cormorant Garamond', 'serif'],
+			oswald: ['Oswald', 'sans-serif'],
+			mono: ['IBM Plex Mono', 'monospace'],
+		},
 		extend: {
 			colors: {
+				gold: {
+					DEFAULT: '#B8973E',
+					light: '#D4AF6A',
+					dark: '#8A6E2A',
+				},
+				cinema: {
+					black: '#0A0A0A',
+					deep: '#111111',
+					card: '#161616',
+					border: '#2A2A2A',
+				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -88,7 +105,26 @@ export default {
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'fade-in-up': 'fadeInUp 1s ease forwards',
+				'fade-in': 'fadeIn 1.5s ease forwards',
+				'line-grow': 'lineGrow 1.2s ease forwards',
+				'counter': 'counter 2s ease forwards',
+			},
+			keyframes: {
+				...({} as Record<string, Record<string, Record<string, string>>>),
+				fadeInUp: {
+					'0%': { opacity: '0', transform: 'translateY(40px)' },
+					'100%': { opacity: '1', transform: 'translateY(0)' },
+				},
+				fadeIn: {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' },
+				},
+				lineGrow: {
+					'0%': { width: '0%' },
+					'100%': { width: '100%' },
+				},
 			}
 		}
 	},
