@@ -19,6 +19,35 @@ function useInView(threshold = 0.1) {
 
 const PHOTO = "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/bucket/b94399a3-970b-4694-8715-a493879d163e.jpg";
 
+const VIDEOS = [
+  { id: "b98d5b17049ca8449a7b5c2ea6919968", title: "Свадебный фильм", tag: "FILM" },
+  { id: "15be864e7a895886ed1765642d5e3663", title: "Свадебный фильм", tag: "FILM" },
+  { id: "c6bda24f8ff0c1d1af68a9e3ad0347fa", title: "Свадебный фильм", tag: "FILM" },
+  { id: "67ebf36518132c8f418ebfc84afa4db2", title: "Свадебный фильм", tag: "FILM" },
+  { id: "6afb96ff5faaced9ee01e0a217d67443", title: "Love-story", tag: "LOVE" },
+  { id: "a49ffbcd2925a1707868fab742da9c69", title: "Свадебный клип", tag: "CLIP" },
+  { id: "dc0e706536b69becb835a8695fc81031", title: "Свадебный фильм", tag: "FILM" },
+];
+
+const REVIEWS = [
+  {
+    name: "Дмитрий Кудинов",
+    text: "Мы рады, что остановили свой выбор именно на Жене, очень порадовало качество работы и процесс сотрудничества. Видео хочется неоднократно пересматривать и показать всем знакомым. Огромная благодарность за такую классную работу. Очень рекомендую Женю, не пожалеете.",
+  },
+  {
+    name: "Анна Константа",
+    text: "Обратились к Евгению по рекомендациям знакомых и ни разу не пожалели. Понял наши желания буквально с полуслова, а когда мы увидели итоговую работу - пробежали мурашки и на глазах были искренние слёзы счастья. Безумно тонко чувствует людей, составляет интересные сценарии. Мы ехали к нему из другого города и это стоило того.",
+  },
+  {
+    name: "Максим Циклинский",
+    text: "Огромное спасибо за классный свадебный фильм, особенно за клип - просто пушка. Отдельное спасибо за терпение Евгения. Всем советую. Получилось прям как в кино.",
+  },
+  {
+    name: "Александра Милохина",
+    text: "Огромное спасибо за свадебный фильм. Мы хотели что-то нестандартное и Евгений помог нам это реализовать. Он воссоздал нашу историю знакомства и отразил нашу любовь и юмор в полной мере. Было комфортно и весело, а главное - мы получили огромное удовольствие от съёмок и от итога. Все остались в восторге.",
+  },
+];
+
 const TARIFFS = [
   {
     name: "Стандарт",
@@ -72,9 +101,12 @@ const TARIFFS = [
 
 export default function Index() {
   const [tick, setTick] = useState(0);
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   const heroRef = useInView(0.01);
   const aboutRef = useInView(0.1);
+  const portfolioRef = useInView(0.05);
+  const reviewsRef = useInView(0.05);
   const uspRef = useInView(0.1);
   const tariffsRef = useInView(0.05);
   const loveRef = useInView(0.1);
@@ -121,10 +153,10 @@ export default function Index() {
               onMouseOut={e => (e.currentTarget.style.background = "#B8973E")}>
               Обсудить фильм <Icon name="ArrowRight" size={13} />
             </a>
-            <a href="#тарифы" style={{ display: "inline-flex", alignItems: "center", gap: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(240,237,230,0.5)", padding: "16px 32px", fontFamily: "'Oswald', sans-serif", fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none", transition: "all 0.3s" }}
+            <a href="#портфолио" style={{ display: "inline-flex", alignItems: "center", gap: "10px", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(240,237,230,0.5)", padding: "16px 32px", fontFamily: "'Oswald', sans-serif", fontSize: "11px", letterSpacing: "0.3em", textTransform: "uppercase", textDecoration: "none", transition: "all 0.3s" }}
               onMouseOver={e => { e.currentTarget.style.borderColor = "rgba(184,151,62,0.5)"; e.currentTarget.style.color = "#F0EDE6"; }}
               onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; e.currentTarget.style.color = "rgba(240,237,230,0.5)"; }}>
-              Тарифы
+              Смотреть работы
             </a>
           </div>
         </div>
@@ -183,6 +215,59 @@ export default function Index() {
           <p style={{ fontSize: "clamp(15px,1.5vw,18px)", fontWeight: 300, lineHeight: 1.85, color: "rgba(240,237,230,0.4)", borderLeft: "2px solid #B8973E", paddingLeft: "20px", fontStyle: "italic" }}>
             Мы снимаем не только в день свадьбы. Я приезжаю столько раз, сколько нужно для полноценного фильма - в зависимости от выбранного формата.
           </p>
+        </div>
+      </section>
+
+      {/* ── PORTFOLIO ── */}
+      <section id="портфолио" ref={portfolioRef.ref} style={{ borderTop: "1px solid #1A1A1A", background: "#0C0C0C", padding: "clamp(64px,10vw,120px) clamp(24px,6vw,80px)" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "16px" }}>
+            <div style={{ width: "32px", height: "1px", background: "#B8973E" }} />
+            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "10px", letterSpacing: "0.35em", color: "#B8973E" }}>ПОРТФОЛИО</span>
+          </div>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,5vw,64px)", fontWeight: 300, lineHeight: 1.05, color: "#F0EDE6", marginBottom: "56px" }}>
+            Мои фильмы<br />
+            <em style={{ color: "rgba(240,237,230,0.3)", fontStyle: "normal" }}>смотрите прямо здесь</em>
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "clamp(16px,2vw,28px)" }} className="portfolio-grid">
+            {VIDEOS.map((v, i) => (
+              <div key={v.id} style={{ ...fade(portfolioRef.inView, (i % 2) * 0.12) }}>
+                <div style={{ position: "relative", aspectRatio: "16 / 9", background: "#000", border: "1px solid #1A1A1A", overflow: "hidden" }}>
+                  {activeVideo === v.id ? (
+                    <iframe
+                      src={`https://rutube.ru/play/embed/${v.id}`}
+                      title={v.title}
+                      allow="clipboard-write; autoplay"
+                      allowFullScreen
+                      style={{ width: "100%", height: "100%", border: "none", display: "block" }}
+                    />
+                  ) : (
+                    <button
+                      onClick={() => setActiveVideo(v.id)}
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: "none", cursor: "pointer", padding: 0, background: "#000", overflow: "hidden" }}
+                    >
+                      <img
+                        src={`https://rutube.ru/api/video/${v.id}/thumbnail/?redirect=1`}
+                        alt={v.title}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(25%) contrast(1.05) brightness(0.85)", transition: "transform 0.6s, filter 0.4s" }}
+                        onMouseOver={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)"; (e.currentTarget as HTMLImageElement).style.filter = "grayscale(0%) contrast(1.05) brightness(1)"; }}
+                        onMouseOut={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; (e.currentTarget as HTMLImageElement).style.filter = "grayscale(25%) contrast(1.05) brightness(0.85)"; }}
+                      />
+                      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,8,8,0.85) 0%, transparent 50%)", pointerEvents: "none" }} />
+                      <div style={{ position: "absolute", top: "16px", left: "16px", background: "#B8973E", color: "#080808", fontFamily: "'IBM Plex Mono', monospace", fontSize: "8px", letterSpacing: "0.25em", padding: "4px 10px", pointerEvents: "none" }}>{v.tag}</div>
+                      <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: "64px", height: "64px", borderRadius: "50%", border: "1px solid #B8973E", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(4px)", background: "rgba(8,8,8,0.3)", pointerEvents: "none" }}>
+                        <Icon name="Play" size={22} style={{ color: "#B8973E", marginLeft: "3px" }} />
+                      </div>
+                      <div style={{ position: "absolute", bottom: "16px", left: "20px", right: "20px", textAlign: "left", pointerEvents: "none" }}>
+                        <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "9px", letterSpacing: "0.2em", color: "#B8973E", marginBottom: "4px" }}>{`FILM_${String(i + 1).padStart(3, "0")}`}</div>
+                        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(18px,2vw,24px)", fontWeight: 300, color: "#F0EDE6" }}>{v.title}</div>
+                      </div>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -316,8 +401,41 @@ export default function Index() {
         </div>
       </section>
 
+      {/* ── REVIEWS ── */}
+      <section ref={reviewsRef.ref} style={{ borderTop: "1px solid #1A1A1A", background: "#0C0C0C", padding: "clamp(64px,10vw,120px) clamp(24px,6vw,80px)" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "16px" }}>
+            <div style={{ width: "32px", height: "1px", background: "#B8973E" }} />
+            <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "10px", letterSpacing: "0.35em", color: "#B8973E" }}>ОТЗЫВЫ</span>
+          </div>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,5vw,64px)", fontWeight: 300, lineHeight: 1.05, color: "#F0EDE6", marginBottom: "56px" }}>
+            Что говорят пары<br />
+            <em style={{ color: "rgba(240,237,230,0.3)", fontStyle: "normal" }}>после премьеры</em>
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "1px", background: "#1A1A1A" }} className="reviews-grid">
+            {REVIEWS.map((r, i) => (
+              <div key={i} style={{ background: "#080808", padding: "clamp(28px,3.5vw,48px)", position: "relative", ...fade(reviewsRef.inView, (i % 2) * 0.12) }}>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "80px", lineHeight: 0.6, color: "rgba(184,151,62,0.15)", height: "32px", userSelect: "none" }}>“</div>
+                <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(16px,1.6vw,19px)", fontWeight: 300, lineHeight: 1.75, color: "rgba(240,237,230,0.6)", marginBottom: "28px", fontStyle: "italic" }}>
+                  {r.text}
+                </p>
+                <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", border: "1px solid rgba(184,151,62,0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Cormorant Garamond', serif", fontSize: "16px", color: "#B8973E", flexShrink: 0 }}>
+                    {r.name.charAt(0)}
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: "'Oswald', sans-serif", fontSize: "12px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#F0EDE6" }}>{r.name}</div>
+                    <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: "8px", letterSpacing: "0.2em", color: "rgba(184,151,62,0.5)", marginTop: "3px" }}>★★★★★</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── CONTACT ── */}
-      <section id="контакт" ref={contactRef.ref} style={{ borderTop: "1px solid #1A1A1A", background: "#0C0C0C", padding: "clamp(64px,10vw,120px) clamp(24px,6vw,80px)" }}>
+      <section id="контакт" ref={contactRef.ref} style={{ borderTop: "1px solid #1A1A1A", background: "#080808", padding: "clamp(64px,10vw,120px) clamp(24px,6vw,80px)" }}>
         <div style={{ maxWidth: "900px", margin: "0 auto", textAlign: "center" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginBottom: "40px" }}>
             <div style={{ width: "32px", height: "1px", background: "#B8973E" }} />
@@ -348,7 +466,7 @@ export default function Index() {
           </div>
           <div style={{ ...fade(contactRef.inView, 0.3), display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: "1px", background: "#1A1A1A" }} className="contacts-grid">
             {[
-              { icon: "Smartphone", label: "MAX — по номеру", sub: "Мессенджер", href: "https://max.ru" },
+              { icon: "Smartphone", label: "MAX", sub: "Мессенджер", href: "https://max.ru/u/f9LHodD0cOI1HZ6GuJWtDqzuOCB3w8GWNkqJBuJt6Sgj01nfPhsnQAQeuzk" },
               { icon: "ExternalLink", label: "vk.com/kreeator", sub: "ВКонтакте", href: "https://vk.com/kreeator" },
             ].map((c, i) => (
               <a key={i} href={c.href} target="_blank" rel="noreferrer" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", padding: "clamp(28px,4vw,48px)", background: "#080808", textDecoration: "none", transition: "background 0.3s" }}
@@ -379,6 +497,8 @@ export default function Index() {
           .stats-grid { grid-template-columns: 1fr !important; }
           .usp-grid { grid-template-columns: 1fr !important; }
           .tariff-grid { grid-template-columns: 1fr !important; }
+          .portfolio-grid { grid-template-columns: 1fr !important; }
+          .reviews-grid { grid-template-columns: 1fr !important; }
           .contacts-grid { grid-template-columns: 1fr !important; }
           .love-grid { grid-template-columns: 1fr !important; }
           .love-cta { display: none !important; }
