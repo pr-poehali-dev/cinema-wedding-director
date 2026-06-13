@@ -20,7 +20,7 @@ const fade = (v: boolean, d = 0): React.CSSProperties => ({
   transition: `opacity 0.8s ease ${d}s, transform 0.8s ease ${d}s`,
 });
 
-const PHOTO = "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/bucket/ed02e043-77ed-4ca9-a3a0-a5ee1ee9af9a.jpg";
+const PHOTO = "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/bucket/b0d5ba91-a5cc-4682-866b-c4c040ce8a2a.jpg";
 const O = "#FF5C1A";
 const BG = "#0D0D0D";
 const CARD = "#141414";
@@ -192,31 +192,34 @@ export default function Index() {
           </div>
         </div>
 
-        {/* right - новая фото */}
-        <div className="hero-photo" style={{ position:"relative",overflow:"hidden",minHeight:"100vh" }}>
+        {/* right - фото через background-image, надёжно */}
+        <div className="hero-photo" style={{
+          position: "relative",
+          backgroundImage: `url(${PHOTO})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          minHeight: "100vh",
+        }}>
           {/* orange glow */}
-          <div className="floating" style={{ position:"absolute",top:"6%",right:"8%",width:"clamp(100px,15vw,200px)",height:"clamp(100px,15vw,200px)",borderRadius:"50%",background:`radial-gradient(circle,${O}55 0%,transparent 70%)`,zIndex:1,pointerEvents:"none" }}/>
-          <div className="pulsering" style={{ position:"absolute",top:"calc(6% + clamp(18px,2.5vw,36px))",right:"calc(8% + clamp(18px,2.5vw,36px))",width:"clamp(55px,9vw,120px)",height:"clamp(55px,9vw,120px)",borderRadius:"50%",border:`1px solid ${O}80`,zIndex:1,pointerEvents:"none" }}/>
+          <div className="floating" style={{ position:"absolute",top:"8%",right:"8%",width:"180px",height:"180px",borderRadius:"50%",background:`radial-gradient(circle,${O}45 0%,transparent 70%)`,zIndex:1,pointerEvents:"none" }}/>
+          <div className="pulsering" style={{ position:"absolute",top:"calc(8% + 30px)",right:"calc(8% + 30px)",width:"100px",height:"100px",borderRadius:"50%",border:`1px solid ${O}70`,zIndex:1,pointerEvents:"none" }}/>
 
-          <img src={PHOTO} alt="Евгений Володин" style={{ width:"100%",height:"100%",objectFit:"cover",objectPosition:"center top",display:"block",filter:"contrast(1.05) brightness(0.92)" }}/>
-          {/* left fade - blend with bg */}
-          <div style={{ position:"absolute",inset:0,background:`linear-gradient(to right,${BG} 0%,transparent 25%)` }}/>
+          {/* left fade to blend with text side */}
+          <div style={{ position:"absolute",inset:0,background:`linear-gradient(to right,${BG} 0%,rgba(13,13,13,0.3) 40%,transparent 100%)`,zIndex:0 }}/>
           {/* bottom fade */}
-          <div style={{ position:"absolute",inset:0,background:`linear-gradient(to top,${BG} 0%,transparent 30%)` }}/>
-          {/* subtle dark vignette corners */}
-          <div style={{ position:"absolute",inset:0,background:`radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,.5) 100%)` }}/>
+          <div style={{ position:"absolute",inset:0,background:`linear-gradient(to top,${BG} 0%,transparent 35%)`,zIndex:0 }}/>
 
           {/* floating card */}
-          <div className="floating" style={{ position:"absolute",bottom:"clamp(30px,5vw,70px)",right:"clamp(20px,4vw,48px)",background:CARD,border:`1px solid ${O}`,padding:"16px 22px",zIndex:2 }}>
+          <div className="floating" style={{ position:"absolute",bottom:"100px",right:"clamp(20px,4vw,48px)",background:CARD,border:`1px solid ${O}`,padding:"16px 22px",zIndex:2 }}>
             <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".3em",color:O,marginBottom:"5px" }}>ОПЫТ</div>
             <div style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:"clamp(20px,3vw,30px)",fontWeight:700,color:TEXT }}>5+ лет</div>
             <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",color:MUTED,marginTop:"3px" }}>в контент-продакшне</div>
           </div>
 
           {/* bottom stat strip */}
-          <div style={{ position:"absolute",bottom:0,left:0,right:0,display:"flex",borderTop:`1px solid rgba(255,255,255,.06)`,zIndex:2 }}>
+          <div style={{ position:"absolute",bottom:0,left:0,right:0,display:"flex",borderTop:`1px solid rgba(255,255,255,.08)`,zIndex:2 }}>
             {[["МЧС","Начало пути"],["Видео","Полный цикл"],["Бизнес","Продюсер"]].map((s,i)=>(
-              <div key={i} style={{ flex:1,padding:"12px 16px",borderRight:i<2?`1px solid rgba(255,255,255,.06)`:"none",backdropFilter:"blur(10px)",background:"rgba(13,13,13,.65)" }}>
+              <div key={i} style={{ flex:1,padding:"12px 16px",borderRight:i<2?`1px solid rgba(255,255,255,.08)`:"none",backdropFilter:"blur(10px)",background:"rgba(13,13,13,.7)" }}>
                 <div style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,fontSize:"clamp(11px,1.1vw,13px)",color:TEXT }}>{s[0]}</div>
                 <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"7px",letterSpacing:".12em",color:MUTED,marginTop:"2px" }}>{s[1]}</div>
               </div>
