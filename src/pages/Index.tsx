@@ -116,9 +116,9 @@ export default function Index() {
         .reels-scroll::-webkit-scrollbar-thumb{background:${O};border-radius:2px;}
         .reels-scroll{scrollbar-width:thin;scrollbar-color:${O} ${LINE};}
 
-        @media(max-width:900px){
-          .hero-grid{grid-template-columns:1fr!important;}
-          .hero-photo{min-height:unset!important;height:90vw;order:-1;}
+        @media(max-width:768px){
+          .hero-text{max-width:100%!important;padding:80px 24px 60px!important;}
+          .hero-photo-bg{width:100%!important;height:50vh!important;position:relative!important;top:auto!important;right:auto!important;}
           .about-split{grid-template-columns:1fr!important;}
           .cases-col{grid-template-columns:1fr!important;}
           .contact-grid{grid-template-columns:1fr!important;}
@@ -146,17 +146,54 @@ export default function Index() {
         </a>
       </nav>
 
-      {/* HERO */}
-      <section ref={heroRef.ref} style={{ minHeight:"100vh",paddingTop:"60px",display:"grid",gridTemplateColumns:"1fr 1fr",position:"relative",overflow:"hidden" }} className="hero-grid">
+      {/* HERO — фото абсолютное на весь экран, текст поверх слева */}
+      <section ref={heroRef.ref} style={{ position:"relative", minHeight:"100vh", overflow:"hidden" }}>
 
-        {/* left */}
-        <div style={{ display:"flex",flexDirection:"column",justifyContent:"center",padding:"clamp(36px,6vw,88px)",paddingTop:"clamp(56px,7vw,100px)",position:"relative",zIndex:1 }}>
+        {/* ФОТО — абсолютно на всю секцию, правая половина */}
+        <div style={{
+          position: "absolute",
+          top: 0, right: 0,
+          width: "52%",
+          height: "100%",
+          backgroundImage: `url(${PHOTO})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          zIndex: 0,
+        }}/>
+
+        {/* Левый градиент — плавный переход от фона к фото */}
+        <div style={{
+          position: "absolute",
+          top: 0, left: 0,
+          width: "65%",
+          height: "100%",
+          background: `linear-gradient(to right, ${BG} 55%, transparent 100%)`,
+          zIndex: 1,
+          pointerEvents: "none",
+        }}/>
+
+        {/* Нижний градиент */}
+        <div style={{
+          position: "absolute",
+          bottom: 0, left: 0, right: 0,
+          height: "30%",
+          background: `linear-gradient(to top, ${BG} 0%, transparent 100%)`,
+          zIndex: 1,
+          pointerEvents: "none",
+        }}/>
+
+        {/* Оранжевый glow */}
+        <div className="floating" style={{ position:"absolute",top:"10%",right:"4%",width:"200px",height:"200px",borderRadius:"50%",background:`radial-gradient(circle,${O}40 0%,transparent 70%)`,zIndex:2,pointerEvents:"none" }}/>
+        <div className="pulsering" style={{ position:"absolute",top:"calc(10% + 40px)",right:"calc(4% + 40px)",width:"110px",height:"110px",borderRadius:"50%",border:`1px solid ${O}60`,zIndex:2,pointerEvents:"none" }}/>
+
+        {/* ТЕКСТ — поверх всего, слева */}
+        <div style={{ position:"relative", zIndex:3, minHeight:"100vh", paddingTop:"60px", display:"flex", flexDirection:"column", justifyContent:"center", padding:"clamp(36px,6vw,88px)", paddingTop:"clamp(100px,12vw,140px)", maxWidth:"55%" }}>
           <div style={{ display:"flex",alignItems:"center",gap:"10px",marginBottom:"28px" }}>
             <div style={{ width:"24px",height:"2px",background:O,flexShrink:0 }}/>
             <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"11px",letterSpacing:".28em",color:O }}>{word}<span className="blink">_</span></span>
           </div>
 
-          <h1 style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:"clamp(44px,7vw,96px)",fontWeight:700,lineHeight:0.92,letterSpacing:"-0.03em",marginBottom:"14px" }}>
+          <h1 style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:"clamp(44px,6vw,88px)",fontWeight:700,lineHeight:0.92,letterSpacing:"-0.03em",marginBottom:"14px" }}>
             Евгений<br/>
             <span style={{ WebkitTextStroke:`2px ${O}`,color:"transparent" }}>Воло</span><span style={{ color:TEXT }}>дин</span>
           </h1>
@@ -165,20 +202,12 @@ export default function Index() {
             Reels-продюсер · Контент-маркетолог · Режиссер монтажа
           </p>
 
-          <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(14px,1.5vw,17px)",lineHeight:1.75,color:MUTED,maxWidth:"440px",marginBottom:"36px" }}>
-            Больше 5 лет в создании и продвижении контента. Прошел путь от пресс-секретаря в МЧС до продюсера по контенту для бизнеса и экспертов. Знаю всю кухню изнутри. Съемки, монтаж, постпродакшн - я прошел все это руками. Есть насмотренность, техническая база и понимание,{" "}
+          <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(14px,1.4vw,16px)",lineHeight:1.75,color:MUTED,maxWidth:"420px",marginBottom:"40px" }}>
+            Больше 5 лет в создании и продвижении контента. Прошел путь от пресс-секретаря в МЧС до продюсера по контенту для бизнеса и экспертов. Знаю всю кухню изнутри - есть насмотренность, техническая база и понимание,{" "}
             <span style={{ color:TEXT,fontWeight:500 }}>как привести проект к результату.</span>
           </p>
 
-          <div style={{ overflow:"hidden",marginLeft:`calc(-1 * clamp(36px,6vw,88px))`,marginBottom:"40px" }}>
-            <div className="marquee-track">
-              {[...SKILLS,...SKILLS].map((s,i)=>(
-                <span key={i} style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".2em",color:i%2===0?MUTED:O,padding:"0 clamp(10px,2vw,22px)",textTransform:"uppercase" }}>{s}</span>
-              ))}
-            </div>
-          </div>
-
-          <div style={{ display:"flex",gap:"12px",flexWrap:"wrap" }}>
+          <div style={{ display:"flex",gap:"12px",flexWrap:"wrap",marginBottom:"48px" }}>
             <a href="#cases" style={{ display:"inline-flex",alignItems:"center",gap:"10px",background:O,color:BG,padding:"14px 30px",fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".18em",textTransform:"uppercase",textDecoration:"none",fontWeight:700,transition:"opacity .2s" }}
               onMouseOver={e=>(e.currentTarget.style.opacity="0.85")}
               onMouseOut={e=>(e.currentTarget.style.opacity="1")}>
@@ -190,44 +219,16 @@ export default function Index() {
               Написать
             </a>
           </div>
-        </div>
-
-        {/* right - фото через background-image, надёжно */}
-        <div className="hero-photo" style={{
-          position: "relative",
-          backgroundImage: `url(${PHOTO})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-          minHeight: "100vh",
-        }}>
-          {/* orange glow */}
-          <div className="floating" style={{ position:"absolute",top:"8%",right:"8%",width:"180px",height:"180px",borderRadius:"50%",background:`radial-gradient(circle,${O}45 0%,transparent 70%)`,zIndex:1,pointerEvents:"none" }}/>
-          <div className="pulsering" style={{ position:"absolute",top:"calc(8% + 30px)",right:"calc(8% + 30px)",width:"100px",height:"100px",borderRadius:"50%",border:`1px solid ${O}70`,zIndex:1,pointerEvents:"none" }}/>
-
-          {/* left fade to blend with text side */}
-          <div style={{ position:"absolute",inset:0,background:`linear-gradient(to right,${BG} 0%,rgba(13,13,13,0.3) 40%,transparent 100%)`,zIndex:0 }}/>
-          {/* bottom fade */}
-          <div style={{ position:"absolute",inset:0,background:`linear-gradient(to top,${BG} 0%,transparent 35%)`,zIndex:0 }}/>
 
           {/* floating card */}
-          <div className="floating" style={{ position:"absolute",bottom:"100px",right:"clamp(20px,4vw,48px)",background:CARD,border:`1px solid ${O}`,padding:"16px 22px",zIndex:2 }}>
+          <div className="floating" style={{ display:"inline-flex",flexDirection:"column",background:CARD,border:`1px solid ${O}`,padding:"16px 22px",alignSelf:"flex-start" }}>
             <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".3em",color:O,marginBottom:"5px" }}>ОПЫТ</div>
-            <div style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:"clamp(20px,3vw,30px)",fontWeight:700,color:TEXT }}>5+ лет</div>
-            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",color:MUTED,marginTop:"3px" }}>в контент-продакшне</div>
-          </div>
-
-          {/* bottom stat strip */}
-          <div style={{ position:"absolute",bottom:0,left:0,right:0,display:"flex",borderTop:`1px solid rgba(255,255,255,.08)`,zIndex:2 }}>
-            {[["МЧС","Начало пути"],["Видео","Полный цикл"],["Бизнес","Продюсер"]].map((s,i)=>(
-              <div key={i} style={{ flex:1,padding:"12px 16px",borderRight:i<2?`1px solid rgba(255,255,255,.08)`:"none",backdropFilter:"blur(10px)",background:"rgba(13,13,13,.7)" }}>
-                <div style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,fontSize:"clamp(11px,1.1vw,13px)",color:TEXT }}>{s[0]}</div>
-                <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"7px",letterSpacing:".12em",color:MUTED,marginTop:"2px" }}>{s[1]}</div>
-              </div>
-            ))}
+            <div style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:"28px",fontWeight:700,color:TEXT,lineHeight:1 }}>5+ лет</div>
+            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",color:MUTED,marginTop:"4px" }}>в контент-продакшне</div>
           </div>
         </div>
 
-        <div style={{ position:"absolute",bottom:0,left:0,right:0,height:"2px",background:`linear-gradient(to right,${O},transparent 55%)` }}/>
+        <div style={{ position:"absolute",bottom:0,left:0,right:0,height:"2px",background:`linear-gradient(to right,${O},transparent 60%)`,zIndex:4 }}/>
       </section>
 
       {/* ABOUT - плюсы и минусы */}
