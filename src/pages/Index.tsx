@@ -20,7 +20,7 @@ const fade = (v: boolean, d = 0): React.CSSProperties => ({
   transition: `opacity 0.8s ease ${d}s, transform 0.8s ease ${d}s`,
 });
 
-const PHOTO = "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/bucket/a6a62a7f-2f5e-4412-a3f6-9ae6c7aa6d34.jpg";
+const PHOTO = "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/bucket/ed02e043-77ed-4ca9-a3a0-a5ee1ee9af9a.jpg";
 const O = "#FF5C1A";
 const BG = "#0D0D0D";
 const CARD = "#141414";
@@ -111,6 +111,10 @@ export default function Index() {
         .trait-card{transition:background .2s;}
         .trait-card:hover{background:#1C1C1C!important;}
         .case-block{transition:border-color .25s;}
+        .reels-scroll::-webkit-scrollbar{height:3px;}
+        .reels-scroll::-webkit-scrollbar-track{background:${LINE};}
+        .reels-scroll::-webkit-scrollbar-thumb{background:${O};border-radius:2px;}
+        .reels-scroll{scrollbar-width:thin;scrollbar-color:${O} ${LINE};}
 
         @media(max-width:900px){
           .hero-grid{grid-template-columns:1fr!important;}
@@ -223,17 +227,6 @@ export default function Index() {
         <div style={{ position:"absolute",bottom:0,left:0,right:0,height:"2px",background:`linear-gradient(to right,${O},transparent 55%)` }}/>
       </section>
 
-      {/* MARQUEE */}
-      <div style={{ overflow:"hidden",padding:"14px 0",background:CARD,borderTop:`1px solid ${LINE}`,borderBottom:`1px solid ${LINE}` }}>
-        <div className="marquee-track">
-          {Array.from({length:14}).map((_,i)=>(
-            <span key={i} style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".25em",color:i%2===0?MUTED:O,padding:"0 24px",textTransform:"uppercase" }}>
-              {["REELS","*","СМЫСЛЫ","*","ПРОДАКШН","*","КОНТЕНТ"][i%7]}
-            </span>
-          ))}
-        </div>
-      </div>
-
       {/* ABOUT - плюсы и минусы */}
       <section id="about" ref={aboutRef.ref} style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}` }}>
         <div style={{ maxWidth:"1200px",margin:"0 auto" }}>
@@ -323,35 +316,36 @@ export default function Index() {
                 {/* expanded content - always open */}
                 {(c.preview||c.reelIds.length>0)&&(
                   <div style={{ borderTop:`1px solid ${LINE}` }}>
-                    <div style={{ display:"grid",gridTemplateColumns:c.preview?"1fr 2fr":"1fr",gap:"1px",background:LINE }} className="case-content">
 
-                      {/* screenshot */}
-                      {c.preview&&(
-                        <div style={{ background:CARD,overflow:"hidden" }}>
-                          <img src={c.preview} alt={c.title} style={{ width:"100%",display:"block",objectFit:"cover" }}/>
-                        </div>
-                      )}
+                    {/* screenshot full width */}
+                    {c.preview&&(
+                      <div style={{ background:CARD,overflow:"hidden",borderBottom:`1px solid ${LINE}` }}>
+                        <img src={c.preview} alt={c.title} style={{ width:"100%",display:"block",maxHeight:"520px",objectFit:"cover",objectPosition:"top" }}/>
+                      </div>
+                    )}
 
-                      {/* reels */}
-                      {c.reelIds.length>0&&(
-                        <div style={{ background:CARD,padding:"clamp(16px,2.5vw,28px)" }}>
-                          <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"14px" }}>Примеры рилсов</div>
-                          <div style={{ display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"clamp(6px,1vw,12px)" }} className="reels-row">
-                            {c.reelIds.map((id,j)=>(
-                              <div key={j} style={{ position:"relative",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}` }}>
-                                <iframe
-                                  src={`https://rutube.ru/play/embed/${id}?autoplay=0`}
-                                  allow="clipboard-write"
-                                  allowFullScreen
-                                  style={{ position:"absolute",inset:0,width:"100%",height:"100%",border:"none" }}
-                                  title={`Reel ${j+1}`}
-                                />
-                              </div>
-                            ))}
-                          </div>
+                    {/* reels - horizontal scroll */}
+                    {c.reelIds.length>0&&(
+                      <div style={{ background:CARD,padding:"clamp(16px,2.5vw,28px)" }}>
+                        <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"16px" }}>
+                          Примеры рилсов <span style={{ color:`${O}60` }}>— листайте</span>
                         </div>
-                      )}
-                    </div>
+                        <div style={{ display:"flex",gap:"clamp(10px,1.5vw,16px)",overflowX:"auto",paddingBottom:"12px",scrollSnapType:"x mandatory",WebkitOverflowScrolling:"touch" }}
+                          className="reels-scroll">
+                          {c.reelIds.map((id,j)=>(
+                            <div key={j} style={{ position:"relative",flexShrink:0,width:"clamp(200px,28vw,320px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}`,scrollSnapAlign:"start" }}>
+                              <iframe
+                                src={`https://rutube.ru/play/embed/${id}?autoplay=0`}
+                                allow="clipboard-write"
+                                allowFullScreen
+                                style={{ position:"absolute",inset:0,width:"100%",height:"100%",border:"none" }}
+                                title={`Reel ${j+1}`}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
