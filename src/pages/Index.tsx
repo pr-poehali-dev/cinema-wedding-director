@@ -120,6 +120,8 @@ export default function Index() {
           .hero-text{max-width:100%!important;padding:80px 24px 60px!important;}
           .hero-photo-bg{width:100%!important;height:50vh!important;position:relative!important;top:auto!important;right:auto!important;}
           .about-split{grid-template-columns:1fr!important;}
+          .case-inner-grid{grid-template-columns:1fr!important;}
+          .case-inner-grid>div{border-right:none!important;border-bottom:1px solid #222;}
           .cases-col{grid-template-columns:1fr!important;}
           .contact-grid{grid-template-columns:1fr!important;}
           .nav-links{display:none!important;}
@@ -318,48 +320,50 @@ export default function Index() {
                 {(c.preview||c.reelIds.length>0)&&(
                   <div style={{ borderTop:`1px solid ${LINE}` }}>
 
-                    {/* screenshot — компактный, как мобильный скрин */}
-                    {c.preview&&(
-                      <div style={{ background:CARD,padding:"clamp(16px,2.5vw,28px)",borderBottom:`1px solid ${LINE}`,display:"flex",gap:"clamp(16px,2vw,24px)",alignItems:"flex-start",flexWrap:"wrap" }}>
-                        <div style={{ flexShrink:0 }}>
-                          <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"10px" }}>Профиль в Instagram</div>
-                          <div style={{ width:"clamp(160px,22vw,260px)",border:`1px solid ${LINE}`,overflow:"hidden",borderRadius:"0" }}>
-                            <img src={c.preview} alt={c.title} style={{ width:"100%",display:"block" }}/>
-                          </div>
-                        </div>
-                        {c.ig&&(
-                          <div style={{ paddingTop:"28px" }}>
-                            <a href={c.ig} target="_blank" rel="noreferrer" style={{ display:"inline-flex",alignItems:"center",gap:"8px",fontFamily:"'Space Mono',monospace",fontSize:"9px",letterSpacing:".18em",textTransform:"uppercase",color:O,textDecoration:"none",border:`1px solid ${O}40`,padding:"10px 18px",transition:"all .2s" }}
-                              onMouseOver={e=>{ e.currentTarget.style.background=`${O}15`; }}
-                              onMouseOut={e=>{ e.currentTarget.style.background="transparent"; }}>
-                              <Icon name="ExternalLink" size={12} style={{ color:O }}/>
-                              Смотреть профиль
-                            </a>
+                    {/* скрин слева + рилсы справа в одном ряду */}
+                    {(c.preview||c.reelIds.length>0)&&(
+                      <div style={{ display:"grid",gridTemplateColumns:c.preview&&c.reelIds.length>0?"auto 1fr":"1fr",background:CARD }} className="case-inner-grid">
+
+                        {/* ЛЕВАЯ КОЛОНКА — скрин профиля + кнопка */}
+                        {c.preview&&(
+                          <div style={{ padding:"clamp(16px,2.5vw,28px)",borderRight:`1px solid ${LINE}`,display:"flex",flexDirection:"column",gap:"16px",alignItems:"flex-start" }}>
+                            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase" }}>Профиль</div>
+                            <div style={{ width:"clamp(150px,18vw,240px)",border:`1px solid ${LINE}`,overflow:"hidden",flexShrink:0 }}>
+                              <img src={c.preview} alt={c.title} style={{ width:"100%",display:"block" }}/>
+                            </div>
+                            {c.ig&&(
+                              <a href={c.ig} target="_blank" rel="noreferrer" style={{ display:"inline-flex",alignItems:"center",gap:"8px",fontFamily:"'Space Mono',monospace",fontSize:"9px",letterSpacing:".18em",textTransform:"uppercase",color:O,textDecoration:"none",border:`1px solid ${O}40`,padding:"9px 16px",transition:"all .2s",whiteSpace:"nowrap" }}
+                                onMouseOver={e=>{ e.currentTarget.style.background=`${O}15`; }}
+                                onMouseOut={e=>{ e.currentTarget.style.background="transparent"; }}>
+                                <Icon name="ExternalLink" size={11} style={{ color:O }}/>
+                                Смотреть профиль
+                              </a>
+                            )}
                           </div>
                         )}
-                      </div>
-                    )}
 
-                    {/* reels - horizontal scroll */}
-                    {c.reelIds.length>0&&(
-                      <div style={{ background:CARD,padding:"clamp(16px,2.5vw,28px)" }}>
-                        <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"16px" }}>
-                          Примеры рилсов <span style={{ color:`${O}60` }}>— листайте</span>
-                        </div>
-                        <div style={{ display:"flex",gap:"clamp(10px,1.5vw,16px)",overflowX:"auto",paddingBottom:"12px",scrollSnapType:"x mandatory",WebkitOverflowScrolling:"touch" }}
-                          className="reels-scroll">
-                          {c.reelIds.map((id,j)=>(
-                            <div key={j} style={{ position:"relative",flexShrink:0,width:"clamp(200px,28vw,320px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}`,scrollSnapAlign:"start" }}>
-                              <iframe
-                                src={`https://rutube.ru/play/embed/${id}?autoplay=0`}
-                                allow="clipboard-write"
-                                allowFullScreen
-                                style={{ position:"absolute",inset:0,width:"100%",height:"100%",border:"none" }}
-                                title={`Reel ${j+1}`}
-                              />
+                        {/* ПРАВАЯ КОЛОНКА — рилсы с горизонтальным скроллом */}
+                        {c.reelIds.length>0&&(
+                          <div style={{ padding:"clamp(16px,2.5vw,28px)" }}>
+                            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"16px" }}>
+                              Примеры рилсов <span style={{ color:`${O}60` }}>— листайте</span>
                             </div>
-                          ))}
-                        </div>
+                            <div style={{ display:"flex",gap:"clamp(10px,1.5vw,16px)",overflowX:"auto",paddingBottom:"12px",scrollSnapType:"x mandatory",WebkitOverflowScrolling:"touch" }}
+                              className="reels-scroll">
+                              {c.reelIds.map((id,j)=>(
+                                <div key={j} style={{ position:"relative",flexShrink:0,width:"clamp(200px,28vw,320px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}`,scrollSnapAlign:"start" }}>
+                                  <iframe
+                                    src={`https://rutube.ru/play/embed/${id}?autoplay=0`}
+                                    allow="clipboard-write"
+                                    allowFullScreen
+                                    style={{ position:"absolute",inset:0,width:"100%",height:"100%",border:"none" }}
+                                    title={`Reel ${j+1}`}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
