@@ -118,7 +118,7 @@ export default function Index() {
 
         @media(max-width:900px){
           .hero-grid{grid-template-columns:1fr!important;}
-          .hero-photo{height:80vw;order:-1;}
+          .hero-photo{min-height:unset!important;height:90vw;order:-1;}
           .about-split{grid-template-columns:1fr!important;}
           .cases-col{grid-template-columns:1fr!important;}
           .contact-grid{grid-template-columns:1fr!important;}
@@ -193,7 +193,7 @@ export default function Index() {
         </div>
 
         {/* right - новая фото */}
-        <div className="hero-photo" style={{ position:"relative",overflow:"hidden" }}>
+        <div className="hero-photo" style={{ position:"relative",overflow:"hidden",minHeight:"100vh" }}>
           {/* orange glow */}
           <div className="floating" style={{ position:"absolute",top:"6%",right:"8%",width:"clamp(100px,15vw,200px)",height:"clamp(100px,15vw,200px)",borderRadius:"50%",background:`radial-gradient(circle,${O}55 0%,transparent 70%)`,zIndex:1,pointerEvents:"none" }}/>
           <div className="pulsering" style={{ position:"absolute",top:"calc(6% + clamp(18px,2.5vw,36px))",right:"calc(8% + clamp(18px,2.5vw,36px))",width:"clamp(55px,9vw,120px)",height:"clamp(55px,9vw,120px)",borderRadius:"50%",border:`1px solid ${O}80`,zIndex:1,pointerEvents:"none" }}/>
