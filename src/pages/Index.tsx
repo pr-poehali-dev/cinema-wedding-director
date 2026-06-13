@@ -70,6 +70,45 @@ const CASES = [
 
 const WORDS = ["REELS", "СМЫСЛЫ", "ТРИГГЕРЫ", "КОНТЕНТ", "ПРОДАКШН", "СЦЕНАРИЙ", "МОНТАЖ"];
 
+function ReelSlider({ ids }: { ids: string[] }) {
+  const [idx, setIdx] = useState(0);
+  const prev = () => setIdx(i => Math.max(0, i - 1));
+  const next = () => setIdx(i => Math.min(ids.length - 1, i + 1));
+  const id = ids[idx];
+  return (
+    <div style={{ display:"flex",flexDirection:"column",gap:"12px" }}>
+      <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
+        <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase" }}>
+          Примеры рилсов <span style={{ color:`${O}80` }}>— {idx+1}/{ids.length}</span>
+        </div>
+        <div style={{ display:"flex",gap:"6px" }}>
+          <button onClick={prev} disabled={idx===0} style={{ width:"32px",height:"32px",border:`1px solid ${idx===0?"#333":O}`,background:"transparent",cursor:idx===0?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s",color:idx===0?"#444":O }}>
+            ‹
+          </button>
+          <button onClick={next} disabled={idx===ids.length-1} style={{ width:"32px",height:"32px",border:`1px solid ${idx===ids.length-1?"#333":O}`,background:"transparent",cursor:idx===ids.length-1?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s",color:idx===ids.length-1?"#444":O }}>
+            ›
+          </button>
+        </div>
+      </div>
+      <div style={{ position:"relative",width:"100%",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}` }}>
+        <iframe
+          key={id}
+          src={`https://rutube.ru/play/embed/${id}?autoplay=0`}
+          allow="clipboard-write"
+          allowFullScreen
+          style={{ position:"absolute",inset:0,width:"100%",height:"100%",border:"none" }}
+          title={`Reel ${idx+1}`}
+        />
+      </div>
+      <div style={{ display:"flex",gap:"6px",justifyContent:"center" }}>
+        {ids.map((_,j)=>(
+          <button key={j} onClick={()=>setIdx(j)} style={{ width:"6px",height:"6px",borderRadius:"50%",border:"none",cursor:"pointer",background:j===idx?O:"#333",padding:0,transition:"background .2s" }}/>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Index() {
   const [tick, setTick] = useState(0);
 
@@ -342,26 +381,10 @@ export default function Index() {
                           </div>
                         )}
 
-                        {/* ПРАВАЯ КОЛОНКА — рилсы с горизонтальным скроллом */}
+                        {/* ПРАВАЯ КОЛОНКА — слайдер рилсов */}
                         {c.reelIds.length>0&&(
-                          <div style={{ padding:"clamp(16px,2.5vw,28px)" }}>
-                            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"16px" }}>
-                              Примеры рилсов <span style={{ color:`${O}60` }}>— листайте</span>
-                            </div>
-                            <div style={{ display:"flex",gap:"clamp(10px,1.5vw,16px)",overflowX:"auto",paddingBottom:"12px",scrollSnapType:"x mandatory",WebkitOverflowScrolling:"touch" }}
-                              className="reels-scroll">
-                              {c.reelIds.map((id,j)=>(
-                                <div key={j} style={{ position:"relative",flexShrink:0,width:"clamp(200px,28vw,320px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}`,scrollSnapAlign:"start" }}>
-                                  <iframe
-                                    src={`https://rutube.ru/play/embed/${id}?autoplay=0`}
-                                    allow="clipboard-write"
-                                    allowFullScreen
-                                    style={{ position:"absolute",inset:0,width:"100%",height:"100%",border:"none" }}
-                                    title={`Reel ${j+1}`}
-                                  />
-                                </div>
-                              ))}
-                            </div>
+                          <div style={{ padding:"clamp(16px,2.5vw,28px)",minWidth:0 }}>
+                            <ReelSlider ids={c.reelIds}/>
                           </div>
                         )}
                       </div>
