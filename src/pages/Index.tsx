@@ -90,7 +90,7 @@ function ReelSlider({ ids }: { ids: string[] }) {
           </button>
         </div>
       </div>
-      <div style={{ position:"relative",width:"100%",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}` }}>
+      <div style={{ position:"relative",width:"clamp(140px,18vw,220px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}` }}>
         <iframe
           key={id}
           src={`https://rutube.ru/play/embed/${id}?autoplay=0`}
