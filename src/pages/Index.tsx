@@ -149,56 +149,27 @@ export default function Index() {
       {/* HERO — фото абсолютное на весь экран, текст поверх слева */}
       <section ref={heroRef.ref} style={{ position:"relative", minHeight:"100vh", overflow:"hidden" }}>
 
-        {/* ФОТО — сдвинуто ниже чтобы не обрезать волосы */}
+        {/* ФОТО с mask-image — растворяется по всем краям без жёстких границ */}
         <div style={{
           position: "absolute",
-          top: "40px", right: 0,
-          width: "52%",
-          height: "calc(100% - 40px)",
+          top: "30px", right: 0,
+          width: "58%",
+          height: "calc(100% - 30px)",
           backgroundImage: `url(${PHOTO})`,
           backgroundSize: "cover",
-          backgroundPosition: "center 10%",
+          backgroundPosition: "center 8%",
           zIndex: 0,
+          WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 18%, black 70%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 75%, transparent 100%)",
+          WebkitMaskComposite: "destination-in",
+          maskImage: "linear-gradient(to right, transparent 0%, black 18%, black 70%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 12%, black 75%, transparent 100%)",
+          maskComposite: "intersect",
         }}/>
 
-        {/* Размытие левого края фото — плавно вливается в фон */}
+        {/* Дополнительный тёмный оверлей для глубины */}
         <div style={{
           position: "absolute",
-          top: 0, left: 0,
-          width: "68%",
-          height: "100%",
-          background: `linear-gradient(to right, ${BG} 50%, rgba(13,13,13,0.85) 70%, transparent 100%)`,
-          zIndex: 1,
-          pointerEvents: "none",
-        }}/>
-
-        {/* Размытие верхнего края фото */}
-        <div style={{
-          position: "absolute",
-          top: 0, left: 0, right: 0,
-          height: "18%",
-          background: `linear-gradient(to bottom, ${BG} 0%, transparent 100%)`,
-          zIndex: 1,
-          pointerEvents: "none",
-        }}/>
-
-        {/* Размытие нижнего края */}
-        <div style={{
-          position: "absolute",
-          bottom: 0, left: 0, right: 0,
-          height: "28%",
-          background: `linear-gradient(to top, ${BG} 0%, transparent 100%)`,
-          zIndex: 1,
-          pointerEvents: "none",
-        }}/>
-
-        {/* Размытие правого края */}
-        <div style={{
-          position: "absolute",
-          top: 0, right: 0,
-          width: "12%",
-          height: "100%",
-          background: `linear-gradient(to left, ${BG} 0%, transparent 100%)`,
+          top: 0, left: 0, right: 0, bottom: 0,
+          background: `radial-gradient(ellipse at 75% 50%, transparent 30%, ${BG} 85%)`,
           zIndex: 1,
           pointerEvents: "none",
         }}/>
