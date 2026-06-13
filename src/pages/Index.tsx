@@ -149,42 +149,59 @@ export default function Index() {
       {/* HERO — фото абсолютное на весь экран, текст поверх слева */}
       <section ref={heroRef.ref} style={{ position:"relative", minHeight:"100vh", overflow:"hidden" }}>
 
-        {/* ФОТО — абсолютно на всю секцию, правая половина */}
+        {/* ФОТО — сдвинуто ниже чтобы не обрезать волосы */}
         <div style={{
           position: "absolute",
-          top: 0, right: 0,
+          top: "40px", right: 0,
           width: "52%",
-          height: "100%",
+          height: "calc(100% - 40px)",
           backgroundImage: `url(${PHOTO})`,
           backgroundSize: "cover",
-          backgroundPosition: "center top",
+          backgroundPosition: "center 10%",
           zIndex: 0,
         }}/>
 
-        {/* Левый градиент — плавный переход от фона к фото */}
+        {/* Размытие левого края фото — плавно вливается в фон */}
         <div style={{
           position: "absolute",
           top: 0, left: 0,
-          width: "65%",
+          width: "68%",
           height: "100%",
-          background: `linear-gradient(to right, ${BG} 55%, transparent 100%)`,
+          background: `linear-gradient(to right, ${BG} 50%, rgba(13,13,13,0.85) 70%, transparent 100%)`,
           zIndex: 1,
           pointerEvents: "none",
         }}/>
 
-        {/* Нижний градиент */}
+        {/* Размытие верхнего края фото */}
+        <div style={{
+          position: "absolute",
+          top: 0, left: 0, right: 0,
+          height: "18%",
+          background: `linear-gradient(to bottom, ${BG} 0%, transparent 100%)`,
+          zIndex: 1,
+          pointerEvents: "none",
+        }}/>
+
+        {/* Размытие нижнего края */}
         <div style={{
           position: "absolute",
           bottom: 0, left: 0, right: 0,
-          height: "30%",
+          height: "28%",
           background: `linear-gradient(to top, ${BG} 0%, transparent 100%)`,
           zIndex: 1,
           pointerEvents: "none",
         }}/>
 
-        {/* Оранжевый glow */}
-        <div className="floating" style={{ position:"absolute",top:"10%",right:"4%",width:"200px",height:"200px",borderRadius:"50%",background:`radial-gradient(circle,${O}40 0%,transparent 70%)`,zIndex:2,pointerEvents:"none" }}/>
-        <div className="pulsering" style={{ position:"absolute",top:"calc(10% + 40px)",right:"calc(4% + 40px)",width:"110px",height:"110px",borderRadius:"50%",border:`1px solid ${O}60`,zIndex:2,pointerEvents:"none" }}/>
+        {/* Размытие правого края */}
+        <div style={{
+          position: "absolute",
+          top: 0, right: 0,
+          width: "12%",
+          height: "100%",
+          background: `linear-gradient(to left, ${BG} 0%, transparent 100%)`,
+          zIndex: 1,
+          pointerEvents: "none",
+        }}/>
 
         {/* ТЕКСТ — поверх всего, слева */}
         <div style={{ position:"relative", zIndex:3, minHeight:"100vh", paddingTop:"60px", display:"flex", flexDirection:"column", justifyContent:"center", padding:"clamp(36px,6vw,88px)", paddingTop:"clamp(100px,12vw,140px)", maxWidth:"55%" }}>
@@ -193,10 +210,19 @@ export default function Index() {
             <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"11px",letterSpacing:".28em",color:O }}>{word}<span className="blink">_</span></span>
           </div>
 
-          <h1 style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:"clamp(44px,6vw,88px)",fontWeight:700,lineHeight:0.92,letterSpacing:"-0.03em",marginBottom:"14px" }}>
-            Евгений<br/>
-            <span style={{ WebkitTextStroke:`2px ${O}`,color:"transparent" }}>Воло</span><span style={{ color:TEXT }}>дин</span>
-          </h1>
+          <div style={{ position:"relative", display:"inline-block", marginBottom:"14px" }}>
+            <h1 style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:"clamp(44px,6vw,88px)",fontWeight:700,lineHeight:0.92,letterSpacing:"-0.03em",margin:0 }}>
+              Евгений<br/>
+              <span style={{ WebkitTextStroke:`2px ${O}`,color:"transparent" }}>Воло</span><span style={{ color:TEXT }}>дин</span>
+            </h1>
+            {/* пульсирующая точка рядом с именем */}
+            <div style={{ position:"absolute", top:"-6px", right:"-20px" }}>
+              <div style={{ width:"10px",height:"10px",borderRadius:"50%",background:O,position:"relative" }}>
+                <div className="pulsering" style={{ position:"absolute",top:"-5px",left:"-5px",width:"20px",height:"20px",borderRadius:"50%",border:`1.5px solid ${O}` }}/>
+                <div className="pulsering" style={{ position:"absolute",top:"-10px",left:"-10px",width:"30px",height:"30px",borderRadius:"50%",border:`1px solid ${O}60`, animationDelay:"0.8s" }}/>
+              </div>
+            </div>
+          </div>
 
           <p style={{ fontFamily:"'Space Mono',monospace",fontSize:"clamp(9px,1vw,11px)",letterSpacing:".2em",textTransform:"uppercase",color:MUTED,marginBottom:"28px",lineHeight:1.9 }}>
             Reels-продюсер · Контент-маркетолог · Режиссер монтажа
@@ -308,7 +334,7 @@ export default function Index() {
                     <span style={{ display:"inline-flex",fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:O,border:`1px solid ${O}40`,padding:"3px 9px",textTransform:"uppercase",alignSelf:"flex-start" }}>{c.niche}</span>
                     <h3 style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(18px,2.2vw,26px)",letterSpacing:"-0.01em",color:TEXT,lineHeight:1.1 }}>{c.title}</h3>
                   </div>
-                  {c.ig&&(
+                  {!c.preview&&c.ig&&(
                     <a href={c.ig} target="_blank" rel="noreferrer" style={{ display:"inline-flex",alignItems:"center",gap:"6px",fontFamily:"'Space Mono',monospace",fontSize:"9px",letterSpacing:".15em",textTransform:"uppercase",color:O,textDecoration:"none",flexShrink:0,transition:"opacity .2s" }}
                       onMouseOver={e=>(e.currentTarget.style.opacity="0.7")}
                       onMouseOut={e=>(e.currentTarget.style.opacity="1")}>
@@ -321,10 +347,25 @@ export default function Index() {
                 {(c.preview||c.reelIds.length>0)&&(
                   <div style={{ borderTop:`1px solid ${LINE}` }}>
 
-                    {/* screenshot full width */}
+                    {/* screenshot — компактный, как мобильный скрин */}
                     {c.preview&&(
-                      <div style={{ background:CARD,overflow:"hidden",borderBottom:`1px solid ${LINE}` }}>
-                        <img src={c.preview} alt={c.title} style={{ width:"100%",display:"block",maxHeight:"520px",objectFit:"cover",objectPosition:"top" }}/>
+                      <div style={{ background:CARD,padding:"clamp(16px,2.5vw,28px)",borderBottom:`1px solid ${LINE}`,display:"flex",gap:"clamp(16px,2vw,24px)",alignItems:"flex-start",flexWrap:"wrap" }}>
+                        <div style={{ flexShrink:0 }}>
+                          <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"10px" }}>Профиль в Instagram</div>
+                          <div style={{ width:"clamp(160px,22vw,260px)",border:`1px solid ${LINE}`,overflow:"hidden",borderRadius:"0" }}>
+                            <img src={c.preview} alt={c.title} style={{ width:"100%",display:"block" }}/>
+                          </div>
+                        </div>
+                        {c.ig&&(
+                          <div style={{ paddingTop:"28px" }}>
+                            <a href={c.ig} target="_blank" rel="noreferrer" style={{ display:"inline-flex",alignItems:"center",gap:"8px",fontFamily:"'Space Mono',monospace",fontSize:"9px",letterSpacing:".18em",textTransform:"uppercase",color:O,textDecoration:"none",border:`1px solid ${O}40`,padding:"10px 18px",transition:"all .2s" }}
+                              onMouseOver={e=>{ e.currentTarget.style.background=`${O}15`; }}
+                              onMouseOut={e=>{ e.currentTarget.style.background="transparent"; }}>
+                              <Icon name="ExternalLink" size={12} style={{ color:O }}/>
+                              Смотреть профиль
+                            </a>
+                          </div>
+                        )}
                       </div>
                     )}
 
