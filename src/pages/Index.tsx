@@ -375,7 +375,7 @@ export default function Index() {
                 {/* expanded content */}
                 {isOpen&&hasContent&&(
                   <div style={{ borderTop:`1px solid ${LINE}` }}>
-                    <div style={{ display:"grid",gridTemplateColumns:"auto 1fr",background:CARD }} className="case-inner-grid">
+                    <div style={{ display:"grid",gridTemplateColumns:"auto auto",justifyContent:"start",background:CARD }} className="case-inner-grid">
 
                       {/* ЛЕВАЯ КОЛОНКА — скрин + рилс */}
                       <div style={{ padding:"clamp(16px,2.5vw,28px)",borderRight:`1px solid ${LINE}`,display:"flex",flexDirection:"column",gap:"clamp(16px,2vw,24px)" }}>
