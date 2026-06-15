@@ -232,8 +232,8 @@ export default function Index() {
       {/* NAV */}
       <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:100,padding:"0 clamp(20px,5vw,72px)",height:"60px",display:"flex",alignItems:"center",justifyContent:"space-between",background:"rgba(13,13,13,.9)",backdropFilter:"blur(14px)",borderBottom:`1px solid ${LINE}` }}>
         <span style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"15px",letterSpacing:"-0.02em",color:TEXT }}>Евгений Володин</span>
-        <div className="nav-links" style={{ display:"flex",gap:"36px" }}>
-          {[["#about","обо мне"],["#cases","кейсы"],["#contact","контакт"]].map(([h,l])=>(
+        <div className="nav-links" style={{ display:"flex",gap:"28px" }}>
+          {[["#about","обо мне"],["#turnkey","команда"],["#cases","кейсы"],["#reviews","отзывы"],["#contact","контакт"]].map(([h,l])=>(
             <a key={h} href={h} className="nav-link">{l}</a>
           ))}
         </div>
@@ -377,15 +377,14 @@ export default function Index() {
           <div style={{ marginTop:"clamp(24px,3vw,40px)",padding:"22px 28px",background:`${O}12`,border:`1px solid ${O}35`,display:"flex",alignItems:"center",gap:"16px" }}>
             <Icon name="MapPin" size={16} style={{ color:O,flexShrink:0 }}/>
             <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(13px,1.4vw,15px)",color:TEXT,lineHeight:1.5 }}>
-              <strong>Готов к командировкам и переезду в другой город.</strong>{" "}
-              <span style={{ color:MUTED }}>Не привязан к месту - привязан к результату.</span>
+              <strong>Готов к командировкам и переезду в другой город.</strong>
             </p>
           </div>
         </div>
       </section>
 
       {/* ПОД КЛЮЧ */}
-      <section style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}`,background:`${O}05` }}>
+      <section id="turnkey" style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}`,background:`${O}05` }}>
         <div style={{ maxWidth:"1200px",margin:"0 auto" }}>
 
           {/* верхняя часть — два столбца */}
@@ -585,7 +584,7 @@ export default function Index() {
       </section>
 
       {/* ОТЗЫВЫ */}
-      <section style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}` }}>
+      <section id="reviews" style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}` }}>
         <div style={{ maxWidth:"1200px",margin:"0 auto" }}>
           <div style={{ display:"flex",alignItems:"center",gap:"14px",marginBottom:"48px" }}>
             <div style={{ width:"24px",height:"2px",background:O }}/>
@@ -617,9 +616,7 @@ export default function Index() {
               <h2 style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:"clamp(36px,5.5vw,72px)",fontWeight:700,letterSpacing:"-0.03em",lineHeight:0.92,marginBottom:"26px" }}>
                 Давай<br/><span style={{ color:O }}>сделаем</span><br/>что-то<br/>крутое
               </h2>
-              <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(13px,1.4vw,16px)",lineHeight:1.8,color:MUTED,maxWidth:"360px" }}>
-                Ищешь продюсера, который понимает смыслы и умеет доводить до результата? Пиши - разберемся.
-              </p>
+
             </div>
 
             <div style={{ display:"flex",flexDirection:"column",gap:"1px",background:LINE,...fade(contactRef.inView,0.2) }}>
