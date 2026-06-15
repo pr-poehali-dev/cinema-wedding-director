@@ -108,8 +108,21 @@ const CASES = [
     result: "Эксперт был не готов к жестким форматам, поэтому пошли через плотный полезняк. Плюс разрыв шаблона и мифа о том, что родители могут исправить все болячки сами.",
     reviewIds: null,
   },
-  { n: "05", title: "АГРОштурман", niche: "Сельское хозяйство", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null, reviewIds: null },
-  { n: "06", title: "Владимир Сургай", niche: "Маркетинг", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null, reviewIds: null },
+  {
+    n: "05", title: "АГРОштурман", niche: "Сельское хозяйство",
+    ig: "https://www.instagram.com/agrosturman_/",
+    preview: "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/bucket/64a254e1-735c-4a80-a565-e87ee18376f1.jpg",
+    reelIds: ["2658e5f87c0bdf3a38ceabbdd167090f", "f891cb18dca3909a30d523ca5b9496fc"],
+    stats: [
+      { value: "1 000 000+", label: "просмотров на самом вирусном рилсе" },
+      { value: "2 400 000+", label: "просмотров на YouTube" },
+      { value: "+3 000", label: "подписчиков" },
+      { value: "153 + 29", label: "рилсов и выпусков на YouTube" },
+    ],
+    task: "Прокачать имидж компании в соцсетях и повысить узнаваемость.",
+    result: "В этом проекте взял всё на себя: от разработки стратегии до работы прямо в кадре в роли эксперта. Запустили авторскую программу на YouTube — ездили и брали живые интервью у фермеров. Но самый мощный выхлоп и трафик дали именно развлекательные рилсы.",
+    reviewIds: null,
+  },
 ];
 
 const WORDS = ["REELS", "СМЫСЛЫ", "ТРИГГЕРЫ", "КОНТЕНТ", "ПРОДАКШН", "СЦЕНАРИЙ", "МОНТАЖ"];
