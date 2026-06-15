@@ -493,6 +493,29 @@ export default function Index() {
         </div>
       </section>
 
+      {/* ОТЗЫВЫ */}
+      <section style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}` }}>
+        <div style={{ maxWidth:"1200px",margin:"0 auto" }}>
+          <div style={{ display:"flex",alignItems:"center",gap:"14px",marginBottom:"48px" }}>
+            <div style={{ width:"24px",height:"2px",background:O }}/>
+            <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".32em",color:O,textTransform:"uppercase" }}>// ОТЗЫВЫ ОБО МНЕ</span>
+          </div>
+          <div style={{ display:"flex",gap:"clamp(10px,1.5vw,16px)",overflowX:"auto",paddingBottom:"12px" }} className="reels-scroll">
+            {["b0dfa1270a6cd65ea4d323e9a99b2adf","00943b1aca5bc4f22ea654e2deae6367","e740916fe1db4ffc6c7e42ea62c01567","bbe08e4eb6cdf711b902db4d2d39999c"].map((id,i)=>(
+              <div key={i} style={{ position:"relative",flexShrink:0,width:"clamp(160px,18vw,240px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}` }}>
+                <iframe
+                  src={`https://rutube.ru/play/embed/${id}?autoplay=0`}
+                  allow="clipboard-write"
+                  allowFullScreen
+                  style={{ position:"absolute",inset:0,width:"100%",height:"100%",border:"none" }}
+                  title={`Отзыв ${i+1}`}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CONTACT */}
       <section id="contact" ref={contactRef.ref} style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)" }}>
         <div style={{ maxWidth:"1200px",margin:"0 auto" }}>
