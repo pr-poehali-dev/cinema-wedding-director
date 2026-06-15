@@ -384,6 +384,71 @@ export default function Index() {
         </div>
       </section>
 
+      {/* ПОД КЛЮЧ */}
+      <section style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}`,background:`${O}05` }}>
+        <div style={{ maxWidth:"1200px",margin:"0 auto" }}>
+
+          {/* верхняя часть — два столбца */}
+          <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(40px,6vw,80px)",alignItems:"start",marginBottom:"clamp(48px,6vw,80px)" }} className="turnkey-grid">
+
+            {/* левая — главный текст */}
+            <div>
+              <div style={{ display:"flex",alignItems:"center",gap:"14px",marginBottom:"28px" }}>
+                <div style={{ width:"24px",height:"2px",background:O }}/>
+                <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".32em",color:O,textTransform:"uppercase" }}>// ЧТО ВЫ ПОЛУЧАЕТЕ</span>
+              </div>
+              <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(13px,1.3vw,15px)",color:MUTED,lineHeight:1.8,marginBottom:"20px" }}>
+                Я не делаю просмотры ради просмотров.
+              </p>
+              <p style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(22px,3vw,38px)",letterSpacing:"-0.02em",lineHeight:1.15,color:TEXT,marginBottom:"20px" }}>
+                Моя суперсила —<br/><span style={{ color:O }}>смыслы и триггеры.</span>
+              </p>
+              <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(13px,1.3vw,15px)",color:MUTED,lineHeight:1.8 }}>
+                Я знаю, почему люди досмотрят ролик до последней секунды. И это происходит точно не из-за красивого монтажа.
+              </p>
+            </div>
+
+            {/* правая — «под ключ» */}
+            <div style={{ border:`1px solid ${O}40`,padding:"clamp(24px,3vw,40px)",position:"relative",overflow:"hidden" }}>
+              <div style={{ position:"absolute",top:0,left:0,right:0,height:"2px",background:`linear-gradient(to right,${O},transparent)` }}/>
+              <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:O,textTransform:"uppercase",marginBottom:"16px" }}>Проект под ключ</div>
+              <p style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(18px,2vw,24px)",letterSpacing:"-0.01em",color:TEXT,lineHeight:1.3,marginBottom:"16px" }}>
+                У меня своя команда.<br/>Вам не нужно никого искать.
+              </p>
+              <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(12px,1.2vw,14px)",color:MUTED,lineHeight:1.7 }}>
+                Операторы, SMM-специалисты, монтажёры, дизайнеры — всё уже есть. Вы получаете результат, а не головную боль с координацией команды.
+              </p>
+            </div>
+          </div>
+
+          {/* нижняя часть — список услуг */}
+          <div>
+            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"20px" }}>Я полностью закрываю</div>
+            <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:"1px",background:LINE }}>
+              {[
+                { icon:"Map", label:"Разработку стратегии" },
+                { icon:"GitBranch", label:"Разработку контент-воронок" },
+                { icon:"Clapperboard", label:"Режиссуру" },
+                { icon:"Camera", label:"Операторскую работу" },
+                { icon:"Scissors", label:"Монтаж" },
+                { icon:"Palette", label:"Дизайн" },
+                { icon:"BarChart2", label:"SMM-сопровождение" },
+              ].map((s,i)=>(
+                <div key={i} style={{ background:CARD,padding:"20px 22px",display:"flex",alignItems:"center",gap:"14px",transition:"background .2s" }}
+                  onMouseOver={e=>{ e.currentTarget.style.background=`${O}10`; }}
+                  onMouseOut={e=>{ e.currentTarget.style.background=CARD; }}>
+                  <div style={{ width:"32px",height:"32px",border:`1px solid ${O}40`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+                    <Icon name={s.icon} size={14} style={{ color:O }}/>
+                  </div>
+                  <span style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(12px,1.2vw,14px)",color:TEXT,lineHeight:1.3 }}>{s.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* CASES */}
       <section id="cases" ref={casesRef.ref} style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}` }}>
         <div style={{ maxWidth:"1200px",margin:"0 auto" }}>
