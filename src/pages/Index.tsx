@@ -81,15 +81,14 @@ const WORDS = ["REELS", "СМЫСЛЫ", "ТРИГГЕРЫ", "КОНТЕНТ", "�
 
 function ReelSlider({ ids }: { ids: string[] }) {
   const [idx, setIdx] = useState(0);
-  const prev = () => setIdx(i => Math.max(0, i - 1));
-  const next = () => setIdx(i => Math.min(ids.length - 1, i + 1));
   const id = ids[idx];
   return (
     <div style={{ display:"flex",flexDirection:"column",gap:"0",alignItems:"flex-start" }}>
       <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"12px" }}>
-        Примеры рилсов
+        Примеры рилсов <span style={{ color:`${O}70` }}>— {idx+1}/{ids.length}</span>
       </div>
-      <div style={{ position:"relative",width:"clamp(180px,22vw,280px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}` }}>
+      {/* главное видео */}
+      <div style={{ position:"relative",width:"clamp(200px,26vw,320px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}` }}>
         <iframe
           key={id}
           src={`https://rutube.ru/play/embed/${id}?autoplay=0`}
@@ -99,17 +98,28 @@ function ReelSlider({ ids }: { ids: string[] }) {
           title={`Reel ${idx+1}`}
         />
       </div>
-      <div style={{ display:"flex",alignItems:"center",gap:"8px",marginTop:"10px" }}>
-        <button onClick={prev} disabled={idx===0} style={{ width:"30px",height:"30px",border:`1px solid ${idx===0?"#2a2a2a":O}`,background:"transparent",cursor:idx===0?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:idx===0?"#333":O,fontSize:"16px",lineHeight:1,transition:"all .2s" }}>‹</button>
-        <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"9px",color:MUTED }}>{idx+1} / {ids.length}</span>
-        <button onClick={next} disabled={idx===ids.length-1} style={{ width:"30px",height:"30px",border:`1px solid ${idx===ids.length-1?"#2a2a2a":O}`,background:"transparent",cursor:idx===ids.length-1?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:idx===ids.length-1?"#333":O,fontSize:"16px",lineHeight:1,transition:"all .2s" }}>›</button>
-      </div>
+      {/* превью-миниатюры снизу */}
+      {ids.length>1&&(
+        <div style={{ display:"flex",gap:"6px",marginTop:"10px" }}>
+          {ids.map((tid,j)=>(
+            <button key={j} onClick={()=>setIdx(j)} style={{ position:"relative",width:"clamp(56px,7vw,88px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${j===idx?O:LINE}`,padding:0,cursor:"pointer",flexShrink:0,transition:"border-color .2s" }}>
+              <iframe
+                src={`https://rutube.ru/play/embed/${tid}?autoplay=0`}
+                style={{ position:"absolute",inset:0,width:"100%",height:"100%",border:"none",pointerEvents:"none" }}
+                title={`thumb-${j}`}
+              />
+              {j!==idx&&<div style={{ position:"absolute",inset:0,background:"rgba(0,0,0,0.45)" }}/>}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
 export default function Index() {
   const [tick, setTick] = useState(0);
+  const [openCase, setOpenCase] = useState<number|null>(null);
 
   const heroRef = useInView(0.01);
   const aboutRef = useInView(0.08);
@@ -336,26 +346,34 @@ export default function Index() {
           </div>
 
           <div style={{ display:"flex",flexDirection:"column",gap:"1px",background:LINE }}>
-            {CASES.map((c,i)=>(
-              <div key={i} className="case-block" style={{ background:CARD,border:"1px solid transparent",...fade(casesRef.inView,i*0.07) }}>
-                {/* header always visible */}
-                <div style={{ display:"flex",alignItems:"center",gap:"clamp(16px,3vw,36px)",padding:"clamp(20px,3vw,32px)" }}>
-                  <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"clamp(28px,4vw,44px)",fontWeight:700,color:`${O}25`,lineHeight:1,flexShrink:0 }}>{c.n}</span>
+            {CASES.map((c,i)=>{
+              const isOpen = openCase===i;
+              const hasContent = !!(c.preview||c.reelIds.length>0);
+              return (
+              <div key={i} className="case-block" style={{ background:CARD,...fade(casesRef.inView,i*0.07) }}>
+                {/* header — кнопка аккордеона */}
+                <button onClick={()=>setOpenCase(isOpen?null:i)} style={{ width:"100%",background:"none",border:"none",cursor:"pointer",display:"flex",alignItems:"center",gap:"clamp(16px,3vw,36px)",padding:"clamp(20px,3vw,32px)",textAlign:"left" }}>
+                  <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"clamp(28px,4vw,44px)",fontWeight:700,color:isOpen?`${O}60`:`${O}25`,lineHeight:1,flexShrink:0,transition:"color .3s" }}>{c.n}</span>
                   <div style={{ display:"flex",flexDirection:"column",gap:"6px",flex:1 }}>
                     <span style={{ display:"inline-flex",fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:O,border:`1px solid ${O}40`,padding:"3px 9px",textTransform:"uppercase",alignSelf:"flex-start" }}>{c.niche}</span>
-                    <h3 style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(18px,2.2vw,26px)",letterSpacing:"-0.01em",color:TEXT,lineHeight:1.1 }}>{c.title}</h3>
+                    <h3 style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(18px,2.2vw,26px)",letterSpacing:"-0.01em",color:TEXT,lineHeight:1.1,margin:0 }}>{c.title}</h3>
                   </div>
-                  {!c.preview&&c.ig&&(
-                    <a href={c.ig} target="_blank" rel="noreferrer" style={{ display:"inline-flex",alignItems:"center",gap:"6px",fontFamily:"'Space Mono',monospace",fontSize:"9px",letterSpacing:".15em",textTransform:"uppercase",color:O,textDecoration:"none",flexShrink:0,transition:"opacity .2s" }}
-                      onMouseOver={e=>(e.currentTarget.style.opacity="0.7")}
-                      onMouseOut={e=>(e.currentTarget.style.opacity="1")}>
-                      <Icon name="ExternalLink" size={12} style={{ color:O }}/> Instagram
-                    </a>
-                  )}
-                </div>
+                  <div style={{ display:"flex",alignItems:"center",gap:"12px",flexShrink:0 }}>
+                    {!hasContent&&c.ig&&(
+                      <a href={c.ig} target="_blank" rel="noreferrer" onClick={e=>e.stopPropagation()} style={{ display:"inline-flex",alignItems:"center",gap:"6px",fontFamily:"'Space Mono',monospace",fontSize:"9px",letterSpacing:".15em",textTransform:"uppercase",color:O,textDecoration:"none",transition:"opacity .2s" }}
+                        onMouseOver={e=>(e.currentTarget.style.opacity="0.7")}
+                        onMouseOut={e=>(e.currentTarget.style.opacity="1")}>
+                        <Icon name="ExternalLink" size={12} style={{ color:O }}/> Instagram
+                      </a>
+                    )}
+                    <div style={{ width:"28px",height:"28px",border:`1px solid ${LINE}`,display:"flex",alignItems:"center",justifyContent:"center",transition:"transform .3s",transform:isOpen?"rotate(45deg)":"rotate(0deg)",flexShrink:0 }}>
+                      <Icon name="Plus" size={14} style={{ color:O }}/>
+                    </div>
+                  </div>
+                </button>
 
                 {/* expanded content */}
-                {(c.preview||c.reelIds.length>0)&&(
+                {isOpen&&hasContent&&(
                   <div style={{ borderTop:`1px solid ${LINE}` }}>
                     <div style={{ display:"grid",gridTemplateColumns:"auto 1fr",background:CARD }} className="case-inner-grid">
 
@@ -418,14 +436,15 @@ export default function Index() {
                   </div>
                 )}
 
-                {/* no content */}
-                {!c.preview&&c.reelIds.length===0&&(
+                {/* no content — показываем только если раскрыт */}
+                {isOpen&&!hasContent&&(
                   <div style={{ borderTop:`1px solid ${LINE}`,padding:"clamp(16px,2.5vw,28px)" }}>
-                    <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"13px",color:MUTED,lineHeight:1.6 }}>Подробности кейса - в личном разговоре.</p>
+                    <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"13px",color:MUTED,lineHeight:1.6 }}>Подробности кейса — в личном разговоре.</p>
                   </div>
                 )}
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
