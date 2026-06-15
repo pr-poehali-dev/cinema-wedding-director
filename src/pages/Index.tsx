@@ -55,17 +55,26 @@ const CASES = [
     ig: "https://www.instagram.com/byriakovsergiy/reels/",
     preview: "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/bucket/1d317b9e-6a33-4376-a6e6-7223ab1958cf.PNG",
     reelIds: ["617a3f081e6abe3bc7e19bfb9440ad93", "02732e9d612c1d4738f43147ac447624", "ffa9f08d6923dec40e9f09d991489304"],
+    stats: [
+      { value: "3", label: "рилса сняли" },
+      { value: "230 000+", label: "просмотров на самом вирусном рилсе" },
+      { value: "35 000+", label: "репостов" },
+      { value: "+535", label: "целевых подписчиков" },
+    ],
+    task: "Набрать новую аудиторию через вирусный контент, но при этом не скатиться в желтуху и сохранить позитивный, экологичный образ священника.",
+    result: "В нише религии сложно удивлять, поэтому я выстроил стратегию на жестком разрыве стереотипов. Мы полностью ушли от классической подачи религиозного контента. В наших сценариях батюшка катает в Доту и ест бургеры. Эта игра на триггерах сработала идеально — мы пробили слепоту зрителя, что принесло мощный рост органических охватов и приток целевых подписчиков.",
   },
   {
     n: "02", title: "Донской пар", niche: "Строительство",
     ig: "https://www.instagram.com/donskoy_par/",
     preview: "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/bucket/3f0cdfc5-07c6-41d4-ac48-eefa9a8f9ae9.PNG",
     reelIds: ["fd0edd196b670e7ae99c033aa265b894", "ebb13be1c6031fd45f7cde0a5aae3aed", "33a1c2f9542daa338093cc3889ac5f5f"],
+    stats: null, task: null, result: null,
   },
-  { n: "03", title: "Массажист", niche: "Здоровье", ig: null, preview: null, reelIds: [] },
-  { n: "04", title: "Детский остеопат", niche: "Здоровье", ig: null, preview: null, reelIds: [] },
-  { n: "05", title: "АГРОштурман", niche: "Сельское хозяйство", ig: null, preview: null, reelIds: [] },
-  { n: "06", title: "Владимир Сургай", niche: "Маркетинг", ig: null, preview: null, reelIds: [] },
+  { n: "03", title: "Массажист", niche: "Здоровье", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null },
+  { n: "04", title: "Детский остеопат", niche: "Здоровье", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null },
+  { n: "05", title: "АГРОштурман", niche: "Сельское хозяйство", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null },
+  { n: "06", title: "Владимир Сургай", niche: "Маркетинг", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null },
 ];
 
 const WORDS = ["REELS", "СМЫСЛЫ", "ТРИГГЕРЫ", "КОНТЕНТ", "ПРОДАКШН", "СЦЕНАРИЙ", "МОНТАЖ"];
@@ -76,21 +85,11 @@ function ReelSlider({ ids }: { ids: string[] }) {
   const next = () => setIdx(i => Math.min(ids.length - 1, i + 1));
   const id = ids[idx];
   return (
-    <div style={{ display:"flex",flexDirection:"column",gap:"12px" }}>
-      <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between" }}>
-        <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase" }}>
-          Примеры рилсов <span style={{ color:`${O}80` }}>— {idx+1}/{ids.length}</span>
-        </div>
-        <div style={{ display:"flex",gap:"6px" }}>
-          <button onClick={prev} disabled={idx===0} style={{ width:"32px",height:"32px",border:`1px solid ${idx===0?"#333":O}`,background:"transparent",cursor:idx===0?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s",color:idx===0?"#444":O }}>
-            ‹
-          </button>
-          <button onClick={next} disabled={idx===ids.length-1} style={{ width:"32px",height:"32px",border:`1px solid ${idx===ids.length-1?"#333":O}`,background:"transparent",cursor:idx===ids.length-1?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .2s",color:idx===ids.length-1?"#444":O }}>
-            ›
-          </button>
-        </div>
+    <div style={{ display:"flex",flexDirection:"column",gap:"0",alignItems:"flex-start" }}>
+      <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"12px" }}>
+        Примеры рилсов
       </div>
-      <div style={{ position:"relative",width:"clamp(140px,18vw,220px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}` }}>
+      <div style={{ position:"relative",width:"clamp(180px,22vw,280px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}` }}>
         <iframe
           key={id}
           src={`https://rutube.ru/play/embed/${id}?autoplay=0`}
@@ -100,10 +99,10 @@ function ReelSlider({ ids }: { ids: string[] }) {
           title={`Reel ${idx+1}`}
         />
       </div>
-      <div style={{ display:"flex",gap:"6px",justifyContent:"center" }}>
-        {ids.map((_,j)=>(
-          <button key={j} onClick={()=>setIdx(j)} style={{ width:"6px",height:"6px",borderRadius:"50%",border:"none",cursor:"pointer",background:j===idx?O:"#333",padding:0,transition:"background .2s" }}/>
-        ))}
+      <div style={{ display:"flex",alignItems:"center",gap:"8px",marginTop:"10px" }}>
+        <button onClick={prev} disabled={idx===0} style={{ width:"30px",height:"30px",border:`1px solid ${idx===0?"#2a2a2a":O}`,background:"transparent",cursor:idx===0?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:idx===0?"#333":O,fontSize:"16px",lineHeight:1,transition:"all .2s" }}>‹</button>
+        <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"9px",color:MUTED }}>{idx+1} / {ids.length}</span>
+        <button onClick={next} disabled={idx===ids.length-1} style={{ width:"30px",height:"30px",border:`1px solid ${idx===ids.length-1?"#2a2a2a":O}`,background:"transparent",cursor:idx===ids.length-1?"not-allowed":"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:idx===ids.length-1?"#333":O,fontSize:"16px",lineHeight:1,transition:"all .2s" }}>›</button>
       </div>
     </div>
   );
@@ -355,23 +354,21 @@ export default function Index() {
                   )}
                 </div>
 
-                {/* expanded content - always open */}
+                {/* expanded content */}
                 {(c.preview||c.reelIds.length>0)&&(
                   <div style={{ borderTop:`1px solid ${LINE}` }}>
+                    <div style={{ display:"grid",gridTemplateColumns:"auto 1fr",background:CARD }} className="case-inner-grid">
 
-                    {/* скрин слева + рилсы справа в одном ряду */}
-                    {(c.preview||c.reelIds.length>0)&&(
-                      <div style={{ display:"grid",gridTemplateColumns:c.preview&&c.reelIds.length>0?"auto 1fr":"1fr",background:CARD }} className="case-inner-grid">
-
-                        {/* ЛЕВАЯ КОЛОНКА — скрин профиля + кнопка */}
+                      {/* ЛЕВАЯ КОЛОНКА — скрин + рилс */}
+                      <div style={{ padding:"clamp(16px,2.5vw,28px)",borderRight:`1px solid ${LINE}`,display:"flex",flexDirection:"column",gap:"clamp(16px,2vw,24px)" }}>
                         {c.preview&&(
-                          <div style={{ padding:"clamp(16px,2.5vw,28px)",borderRight:`1px solid ${LINE}`,display:"flex",flexDirection:"column",gap:"16px",alignItems:"flex-start" }}>
-                            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase" }}>Профиль</div>
-                            <div style={{ width:"clamp(150px,18vw,240px)",border:`1px solid ${LINE}`,overflow:"hidden",flexShrink:0 }}>
+                          <div style={{ display:"flex",flexDirection:"column",gap:"10px" }}>
+                            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase" }}>Профиль Instagram</div>
+                            <div style={{ width:"clamp(150px,18vw,240px)",border:`1px solid ${LINE}`,overflow:"hidden" }}>
                               <img src={c.preview} alt={c.title} style={{ width:"100%",display:"block" }}/>
                             </div>
                             {c.ig&&(
-                              <a href={c.ig} target="_blank" rel="noreferrer" style={{ display:"inline-flex",alignItems:"center",gap:"8px",fontFamily:"'Space Mono',monospace",fontSize:"9px",letterSpacing:".18em",textTransform:"uppercase",color:O,textDecoration:"none",border:`1px solid ${O}40`,padding:"9px 16px",transition:"all .2s",whiteSpace:"nowrap" }}
+                              <a href={c.ig} target="_blank" rel="noreferrer" style={{ display:"inline-flex",alignItems:"center",gap:"8px",fontFamily:"'Space Mono',monospace",fontSize:"9px",letterSpacing:".18em",textTransform:"uppercase",color:O,textDecoration:"none",border:`1px solid ${O}40`,padding:"9px 16px",transition:"all .2s",whiteSpace:"nowrap",alignSelf:"flex-start" }}
                                 onMouseOver={e=>{ e.currentTarget.style.background=`${O}15`; }}
                                 onMouseOut={e=>{ e.currentTarget.style.background="transparent"; }}>
                                 <Icon name="ExternalLink" size={11} style={{ color:O }}/>
@@ -380,15 +377,44 @@ export default function Index() {
                             )}
                           </div>
                         )}
-
-                        {/* ПРАВАЯ КОЛОНКА — слайдер рилсов */}
                         {c.reelIds.length>0&&(
-                          <div style={{ padding:"clamp(16px,2.5vw,28px)",minWidth:0 }}>
-                            <ReelSlider ids={c.reelIds}/>
-                          </div>
+                          <ReelSlider ids={c.reelIds}/>
                         )}
                       </div>
-                    )}
+
+                      {/* ПРАВАЯ КОЛОНКА — статистика + задача + результат */}
+                      <div style={{ padding:"clamp(16px,2.5vw,28px)",display:"flex",flexDirection:"column",gap:"clamp(20px,2.5vw,32px)" }}>
+
+                        {c.stats&&(
+                          <div>
+                            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"16px" }}>Результаты</div>
+                            <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1px",background:LINE }}>
+                              {c.stats.map((s,i)=>(
+                                <div key={i} style={{ background:CARD,padding:"14px 16px" }}>
+                                  <div style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(18px,2vw,26px)",color:O,letterSpacing:"-0.02em",lineHeight:1 }}>{s.value}</div>
+                                  <div style={{ fontFamily:"'Inter',sans-serif",fontSize:"11px",color:MUTED,marginTop:"4px",lineHeight:1.4 }}>{s.label}</div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {c.task&&(
+                          <div style={{ borderLeft:`2px solid ${LINE}`,paddingLeft:"16px" }}>
+                            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:O,textTransform:"uppercase",marginBottom:"8px" }}>Задача</div>
+                            <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(12px,1.2vw,14px)",color:TEXT,lineHeight:1.7,margin:0 }}>{c.task}</p>
+                          </div>
+                        )}
+
+                        {c.result&&(
+                          <div style={{ borderLeft:`2px solid ${O}40`,paddingLeft:"16px" }}>
+                            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:O,textTransform:"uppercase",marginBottom:"8px" }}>Что я сделал как продюсер</div>
+                            <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(12px,1.2vw,14px)",color:MUTED,lineHeight:1.7,margin:0 }}>{c.result}</p>
+                          </div>
+                        )}
+
+                      </div>
+                    </div>
                   </div>
                 )}
 
