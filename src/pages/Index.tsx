@@ -63,6 +63,7 @@ const CASES = [
     ],
     task: "Набрать новую аудиторию через вирусный контент, но при этом не скатиться в желтуху и сохранить позитивный, экологичный образ священника.",
     result: "В нише религии сложно удивлять, поэтому я выстроил стратегию на жестком разрыве стереотипов. Мы полностью ушли от классической подачи религиозного контента. В наших сценариях батюшка катает в Доту и ест бургеры. Эта игра на триггерах сработала идеально — мы пробили слепоту зрителя, что принесло мощный рост органических охватов и приток целевых подписчиков.",
+    reviewIds: null,
   },
   {
     n: "02", title: "Донской пар", niche: "Строительство",
@@ -77,11 +78,25 @@ const CASES = [
     ],
     task: "Создать аккаунт с нуля в социальных сетях и сделать бренд «Донской пар» узнаваемым.",
     result: "Сделал акцент на развлекательном и полезном контенте, который люди активно сохраняли и переотправляли. Выстроил контент-воронку: люди получали бесплатный гайд, который могли применить при строительстве бань и домов. Компания хотела провокации, поэтому не забыл кинуть камень в огород конкурентов, что вызвало бурю эмоций в комментариях и большие просмотры)",
+    reviewIds: null,
   },
-  { n: "03", title: "Массажист", niche: "Здоровье", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null },
-  { n: "04", title: "Детский остеопат", niche: "Здоровье", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null },
-  { n: "05", title: "АГРОштурман", niche: "Сельское хозяйство", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null },
-  { n: "06", title: "Владимир Сургай", niche: "Маркетинг", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null },
+  {
+    n: "03", title: "Николай Соловьёв — Массажист", niche: "Здоровье",
+    ig: "https://www.instagram.com/kola.solovev/",
+    preview: "https://cdn.poehali.dev/projects/6b3fbfff-dfcc-4fcb-b559-369440416de5/bucket/443ce6ab-59c2-4596-b507-0fc9daae9904.jpg",
+    reelIds: ["c663b7c5d19c2f9be7b34dfd84b9c303", "8e8d3873fdbb96cf18a442a48e0520db", "85ccb4e27411e78454d41b2386c92c56"],
+    reviewIds: ["b0dfa1270a6cd65ea4d323e9a99b2adf", "00943b1aca5bc4f22ea654e2deae6367", "e740916fe1db4ffc6c7e42ea62c01567", "bbe08e4eb6cdf711b902db4d2d39999c"],
+    stats: [
+      { value: "1,1 млн+", label: "просмотров на самом вирусном рилсе" },
+      { value: "25 000+", label: "репостов" },
+      { value: "5", label: "снятых рилсов" },
+    ],
+    task: "Сделать по кайфу рилсы, чтобы они набирали просмотры, и повысить узнаваемость массажиста в инфополе.",
+    result: "Прописал сценарии, которые бьют в боли широкой аудитории по здоровью. Сделал упор на форматы, которые люди хотят сохранять и переотправлять — простые и рабочие рекомендации от массажиста, как улучшить здоровье в домашних условиях. Чтобы ролики залетали, добавили триггерные темы и наглядно показали, как меняется жизнь и состояние в формате «до и после».",
+  },
+  { n: "04", title: "Детский остеопат", niche: "Здоровье", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null, reviewIds: null },
+  { n: "05", title: "АГРОштурман", niche: "Сельское хозяйство", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null, reviewIds: null },
+  { n: "06", title: "Владимир Сургай", niche: "Маркетинг", ig: null, preview: null, reelIds: [], stats: null, task: null, result: null, reviewIds: null },
 ];
 
 const WORDS = ["REELS", "СМЫСЛЫ", "ТРИГГЕРЫ", "КОНТЕНТ", "ПРОДАКШН", "СЦЕНАРИЙ", "МОНТАЖ"];
@@ -440,6 +455,28 @@ export default function Index() {
 
                       </div>
                     </div>
+
+                    {/* ОТЗЫВЫ — полная ширина под основным блоком */}
+                    {c.reviewIds&&c.reviewIds.length>0&&(
+                      <div style={{ borderTop:`1px solid ${LINE}`,padding:"clamp(16px,2.5vw,28px)" }}>
+                        <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"16px" }}>
+                          Отзывы клиентов
+                        </div>
+                        <div style={{ display:"flex",gap:"10px",overflowX:"auto",paddingBottom:"8px" }} className="reels-scroll">
+                          {c.reviewIds.map((rid,j)=>(
+                            <div key={j} style={{ position:"relative",flexShrink:0,width:"clamp(130px,14vw,180px)",aspectRatio:"9/16",background:"#000",overflow:"hidden",border:`1px solid ${LINE}` }}>
+                              <iframe
+                                src={`https://rutube.ru/play/embed/${rid}?autoplay=0`}
+                                allow="clipboard-write"
+                                allowFullScreen
+                                style={{ position:"absolute",inset:0,width:"100%",height:"100%",border:"none" }}
+                                title={`Отзыв ${j+1}`}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
