@@ -28,19 +28,35 @@ const LINE = "#222";
 const TEXT = "#F2F0EB";
 const MUTED = "rgba(242,240,235,0.45)";
 
-const SKILLS = [
-  { icon: "Map", label: "Разработка стратегии" },
-  { icon: "GitBranch", label: "Контент-воронки" },
-  { icon: "Clapperboard", label: "Режиссура" },
-  { icon: "Camera", label: "Операторская работа" },
-  { icon: "Scissors", label: "Монтаж" },
-  { icon: "Palette", label: "Дизайн" },
-  { icon: "BarChart2", label: "SMM-сопровождение" },
-  { icon: "FileText", label: "Написание сценариев" },
-  { icon: "Megaphone", label: "PR и работа со СМИ" },
-  { icon: "Mic", label: "Публичные выступления" },
-  { icon: "Video", label: "Работа в кадре" },
-  { icon: "Cpu", label: "Нейросети" },
+const SKILL_GROUPS = [
+  {
+    title: "Смыслы и стратегия",
+    items: [
+      { icon: "Map", label: "Разработка стратегии" },
+      { icon: "GitBranch", label: "Контент-воронки" },
+      { icon: "FileText", label: "Написание сценариев" },
+      { icon: "Megaphone", label: "PR и работа со СМИ" },
+    ],
+  },
+  {
+    title: "Продакшн",
+    items: [
+      { icon: "Clapperboard", label: "Режиссура" },
+      { icon: "Camera", label: "Операторская работа" },
+      { icon: "Scissors", label: "Монтаж" },
+      { icon: "Palette", label: "Дизайн" },
+    ],
+  },
+  {
+    title: "Публичность и продвижение",
+    items: [
+      { icon: "BarChart2", label: "SMM-сопровождение" },
+      { icon: "Mic", label: "Публичные выступления" },
+      { icon: "Video", label: "Работа в кадре" },
+      { icon: "CalendarDays", label: "Организация мероприятий" },
+      { icon: "Cpu", label: "Нейросети" },
+    ],
+  },
 ];
 
 const PROS = [
@@ -183,6 +199,7 @@ export default function Index() {
 
   const heroRef = useInView(0.01);
   const aboutRef = useInView(0.08);
+  const skillsRef = useInView(0.1);
   const casesRef = useInView(0.04);
   const contactRef = useInView(0.1);
 
@@ -206,9 +223,6 @@ export default function Index() {
         @keyframes float{0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-14px) rotate(1deg);}}
         @keyframes pring{0%{transform:scale(0.9);opacity:.7;}100%{transform:scale(1.5);opacity:0;}}
         @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-        @keyframes skillsMarquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-        .skills-marquee{display:flex;width:max-content;animation:skillsMarquee 26s linear infinite;}
-        .skills-marquee:hover{animation-play-state:paused;}
         @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
         .floating{animation:float 5.5s ease-in-out infinite;}
@@ -222,6 +236,7 @@ export default function Index() {
         .trait-card{transition:background .2s;}
         .trait-card:hover{background:#1C1C1C!important;}
         .case-block{transition:border-color .25s;}
+        .skill-pill:hover{border-color:${O}!important;background:${O}12;transform:translateY(-2px);}
         .reels-scroll::-webkit-scrollbar{height:3px;}
         .reels-scroll::-webkit-scrollbar-track{background:${LINE};}
         .reels-scroll::-webkit-scrollbar-thumb{background:${O};border-radius:2px;}
@@ -237,7 +252,6 @@ export default function Index() {
           .nav-links{display:none!important;}
           .reels-row{grid-template-columns:repeat(3,1fr)!important;}
           .case-content{grid-template-columns:1fr!important;}
-          .pr-grid{grid-template-columns:1fr!important;text-align:center;justify-items:center;}
         }
         @media(max-width:560px){
           .reels-row{grid-template-columns:repeat(3,1fr)!important;}
@@ -399,7 +413,7 @@ export default function Index() {
       </section>
 
       {/* НАВЫКИ */}
-      <section id="turnkey" style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}`,background:`${O}05` }}>
+      <section id="turnkey" ref={skillsRef.ref} style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}`,background:`${O}05` }}>
         <div style={{ maxWidth:"1200px",margin:"0 auto" }}>
 
           <div style={{ display:"flex",alignItems:"center",gap:"14px",marginBottom:"48px" }}>
@@ -407,40 +421,25 @@ export default function Index() {
             <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".32em",color:O,textTransform:"uppercase" }}>// НАВЫКИ</span>
           </div>
 
-          {/* бегущая лента навыков — ряд 1, вправо */}
-          <div style={{ position:"relative",overflow:"hidden",borderTop:`1px solid ${LINE}`,borderBottom:`1px solid ${LINE}`,padding:"clamp(20px,3vw,32px) 0" }}>
-            <div style={{ position:"absolute",top:0,bottom:0,left:0,width:"60px",background:`linear-gradient(to right,${BG},transparent)`,zIndex:2 }}/>
-            <div style={{ position:"absolute",top:0,bottom:0,right:0,width:"60px",background:`linear-gradient(to left,${BG},transparent)`,zIndex:2 }}/>
-            <div className="skills-marquee">
-              {[...SKILLS,...SKILLS].map((s,i)=>(
-                <div key={i} style={{ display:"flex",alignItems:"center",gap:"12px",padding:"0 clamp(20px,2.5vw,32px)",flexShrink:0 }}>
-                  <div style={{ width:"32px",height:"32px",border:`1px solid ${O}40`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
-                    <Icon name={s.icon} size={14} style={{ color:O }}/>
-                  </div>
-                  <span style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,fontSize:"clamp(13px,1.4vw,17px)",color:TEXT,whiteSpace:"nowrap" }}>{s.label}</span>
+          <div style={{ display:"flex",flexDirection:"column",gap:"1px",background:LINE }} className="skills-groups">
+            {SKILL_GROUPS.map((g,gi)=>(
+              <div key={gi} style={{ background:BG,padding:"clamp(20px,2.6vw,32px)",...fade(skillsRef.inView,gi*0.1) }}>
+                <div style={{ display:"flex",alignItems:"center",gap:"10px",marginBottom:"20px" }}>
+                  <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"clamp(20px,2.4vw,28px)",fontWeight:700,color:`${O}30` }}>{String(gi+1).padStart(2,"0")}</span>
+                  <span style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(14px,1.5vw,17px)",color:TEXT }}>{g.title}</span>
                 </div>
-              ))}
-            </div>
+                <div style={{ display:"flex",flexWrap:"wrap",gap:"10px" }}>
+                  {g.items.map((s,i)=>(
+                    <div key={i} className="skill-pill" style={{ display:"inline-flex",alignItems:"center",gap:"9px",padding:"9px 16px",border:`1px solid ${LINE}`,transition:"all .25s" }}>
+                      <Icon name={s.icon} size={13} style={{ color:O }}/>
+                      <span style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(12px,1.2vw,13.5px)",color:TEXT,whiteSpace:"nowrap" }}>{s.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
 
-        </div>
-      </section>
-
-      {/* PR-ОПЫТ */}
-      <section style={{ padding:"clamp(60px,8vw,100px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}` }}>
-        <div style={{ maxWidth:"1200px",margin:"0 auto",display:"grid",gridTemplateColumns:"auto 1fr",gap:"clamp(24px,4vw,48px)",alignItems:"center" }} className="pr-grid">
-          <div style={{ width:"clamp(64px,8vw,96px)",height:"clamp(64px,8vw,96px)",border:`1px solid ${O}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
-            <Icon name="Megaphone" size={32} style={{ color:O }}/>
-          </div>
-          <div>
-            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".28em",color:O,textTransform:"uppercase",marginBottom:"12px" }}>// БЭКГРАУНД В PR</div>
-            <p style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(18px,2.2vw,26px)",letterSpacing:"-0.01em",color:TEXT,lineHeight:1.3,marginBottom:"12px" }}>
-              Работал пресс-секретарём в МЧС
-            </p>
-            <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(13px,1.3vw,15px)",color:MUTED,lineHeight:1.75,maxWidth:"680px" }}>
-              Отвечал за коммуникацию со СМИ, готовил официальные заявления и работал с информацией в кризисных ситуациях, где каждое слово имеет вес. Этот опыт дал мне навык быстро формулировать смыслы, держать удар в публичном поле и превращать сложную информацию в понятный и точный месседж — то, что сегодня я применяю в каждом сценарии и стратегии.
-            </p>
-          </div>
         </div>
       </section>
 
