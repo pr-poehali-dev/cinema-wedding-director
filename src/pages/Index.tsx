@@ -28,7 +28,17 @@ const LINE = "#222";
 const TEXT = "#F2F0EB";
 const MUTED = "rgba(242,240,235,0.45)";
 
-const SKILLS = ["Reels-продюсер", "Контент-маркетолог", "Режиссер монтажа", "Сценарии", "Смыслы и триггеры", "Нейросети", "Работа с командой", "Видеопроизводство"];
+const SKILLS = [
+  { icon: "Map", label: "Разработка стратегии" },
+  { icon: "GitBranch", label: "Контент-воронки" },
+  { icon: "Clapperboard", label: "Режиссура" },
+  { icon: "Camera", label: "Операторская работа" },
+  { icon: "Scissors", label: "Монтаж" },
+  { icon: "Palette", label: "Дизайн" },
+  { icon: "BarChart2", label: "SMM-сопровождение" },
+  { icon: "FileText", label: "Написание сценариев" },
+  { icon: "Megaphone", label: "PR и работа со СМИ" },
+];
 
 const PROS = [
   { icon: "Zap", t: "Люблю и умею брать ответственность." },
@@ -193,6 +203,9 @@ export default function Index() {
         @keyframes float{0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-14px) rotate(1deg);}}
         @keyframes pring{0%{transform:scale(0.9);opacity:.7;}100%{transform:scale(1.5);opacity:0;}}
         @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+        @keyframes skillsMarquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+        .skills-marquee{display:flex;width:max-content;animation:skillsMarquee 26s linear infinite;}
+        .skills-marquee:hover{animation-play-state:paused;}
         @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
         .floating{animation:float 5.5s ease-in-out infinite;}
@@ -222,6 +235,8 @@ export default function Index() {
           .nav-links{display:none!important;}
           .reels-row{grid-template-columns:repeat(3,1fr)!important;}
           .case-content{grid-template-columns:1fr!important;}
+          .turnkey-grid{grid-template-columns:1fr!important;}
+          .pr-grid{grid-template-columns:1fr!important;text-align:center;justify-items:center;}
         }
         @media(max-width:560px){
           .reels-row{grid-template-columns:repeat(3,1fr)!important;}
@@ -406,44 +421,56 @@ export default function Index() {
               </p>
             </div>
 
-            {/* правая — «под ключ» */}
+            {/* правая — «в найм» */}
             <div style={{ border:`1px solid ${O}40`,padding:"clamp(24px,3vw,40px)",position:"relative",overflow:"hidden" }}>
               <div style={{ position:"absolute",top:0,left:0,right:0,height:"2px",background:`linear-gradient(to right,${O},transparent)` }}/>
-              <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:O,textTransform:"uppercase",marginBottom:"16px" }}>Проект под ключ</div>
+              <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:O,textTransform:"uppercase",marginBottom:"16px" }}>В поиске команды</div>
               <p style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(18px,2vw,24px)",letterSpacing:"-0.01em",color:TEXT,lineHeight:1.3,marginBottom:"16px" }}>
-                У меня своя команда.<br/>Вам не нужно никого искать.
+                Рассматриваю найм.<br/>Готов закрыть контент-направление изнутри.
               </p>
               <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(12px,1.2vw,14px)",color:MUTED,lineHeight:1.7 }}>
-                Операторы, SMM-специалисты, монтажёры, дизайнеры — всё уже есть. Вы получаете результат, а не головную боль с координацией команды.
+                Не подрядчик на аутсорсе, а человек в команде: погружаюсь в продукт, беру ответственность за результат и работаю на общую цель бизнеса.
               </p>
             </div>
           </div>
 
-          {/* нижняя часть — список услуг */}
+          {/* нижняя часть — бегущая лента навыков */}
           <div>
             <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"20px" }}>Я полностью закрываю</div>
-            <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:"1px",background:LINE }}>
-              {[
-                { icon:"Map", label:"Разработку стратегии" },
-                { icon:"GitBranch", label:"Разработку контент-воронок" },
-                { icon:"Clapperboard", label:"Режиссуру" },
-                { icon:"Camera", label:"Операторскую работу" },
-                { icon:"Scissors", label:"Монтаж" },
-                { icon:"Palette", label:"Дизайн" },
-                { icon:"BarChart2", label:"SMM-сопровождение" },
-              ].map((s,i)=>(
-                <div key={i} style={{ background:CARD,padding:"20px 22px",display:"flex",alignItems:"center",gap:"14px",transition:"background .2s" }}
-                  onMouseOver={e=>{ e.currentTarget.style.background=`${O}10`; }}
-                  onMouseOut={e=>{ e.currentTarget.style.background=CARD; }}>
-                  <div style={{ width:"32px",height:"32px",border:`1px solid ${O}40`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
-                    <Icon name={s.icon} size={14} style={{ color:O }}/>
+            <div style={{ position:"relative",overflow:"hidden",borderTop:`1px solid ${LINE}`,borderBottom:`1px solid ${LINE}`,padding:"clamp(20px,3vw,32px) 0" }}>
+              <div style={{ position:"absolute",top:0,bottom:0,left:0,width:"60px",background:`linear-gradient(to right,${BG},transparent)`,zIndex:2 }}/>
+              <div style={{ position:"absolute",top:0,bottom:0,right:0,width:"60px",background:`linear-gradient(to left,${BG},transparent)`,zIndex:2 }}/>
+              <div className="skills-marquee">
+                {[...SKILLS,...SKILLS].map((s,i)=>(
+                  <div key={i} style={{ display:"flex",alignItems:"center",gap:"12px",padding:"0 clamp(20px,2.5vw,32px)",flexShrink:0 }}>
+                    <div style={{ width:"32px",height:"32px",border:`1px solid ${O}40`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+                      <Icon name={s.icon} size={14} style={{ color:O }}/>
+                    </div>
+                    <span style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,fontSize:"clamp(13px,1.4vw,17px)",color:TEXT,whiteSpace:"nowrap" }}>{s.label}</span>
                   </div>
-                  <span style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(12px,1.2vw,14px)",color:TEXT,lineHeight:1.3 }}>{s.label}</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* PR-ОПЫТ */}
+      <section style={{ padding:"clamp(60px,8vw,100px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}` }}>
+        <div style={{ maxWidth:"1200px",margin:"0 auto",display:"grid",gridTemplateColumns:"auto 1fr",gap:"clamp(24px,4vw,48px)",alignItems:"center" }} className="pr-grid">
+          <div style={{ width:"clamp(64px,8vw,96px)",height:"clamp(64px,8vw,96px)",border:`1px solid ${O}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+            <Icon name="Megaphone" size={32} style={{ color:O }}/>
+          </div>
+          <div>
+            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".28em",color:O,textTransform:"uppercase",marginBottom:"12px" }}>// БЭКГРАУНД В PR</div>
+            <p style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(18px,2.2vw,26px)",letterSpacing:"-0.01em",color:TEXT,lineHeight:1.3,marginBottom:"12px" }}>
+              Работал пресс-секретарём в МЧС
+            </p>
+            <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(13px,1.3vw,15px)",color:MUTED,lineHeight:1.75,maxWidth:"680px" }}>
+              Отвечал за коммуникацию со СМИ, готовил официальные заявления и работал с информацией в кризисных ситуациях, где каждое слово имеет вес. Этот опыт дал мне навык быстро формулировать смыслы, держать удар в публичном поле и превращать сложную информацию в понятный и точный месседж — то, что сегодня я применяю в каждом сценарии и стратегии.
+            </p>
+          </div>
         </div>
       </section>
 
