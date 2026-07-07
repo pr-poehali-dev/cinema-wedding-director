@@ -38,6 +38,9 @@ const SKILLS = [
   { icon: "BarChart2", label: "SMM-сопровождение" },
   { icon: "FileText", label: "Написание сценариев" },
   { icon: "Megaphone", label: "PR и работа со СМИ" },
+  { icon: "Mic", label: "Публичные выступления" },
+  { icon: "Video", label: "Работа в кадре" },
+  { icon: "Cpu", label: "Нейросети" },
 ];
 
 const PROS = [
@@ -231,11 +234,9 @@ export default function Index() {
           .case-inner-grid{grid-template-columns:1fr!important;}
           .case-inner-grid>div{border-right:none!important;border-bottom:1px solid #222;}
           .cases-col{grid-template-columns:1fr!important;}
-          .contact-grid{grid-template-columns:1fr!important;}
           .nav-links{display:none!important;}
           .reels-row{grid-template-columns:repeat(3,1fr)!important;}
           .case-content{grid-template-columns:1fr!important;}
-          .turnkey-grid{grid-template-columns:1fr!important;}
           .pr-grid{grid-template-columns:1fr!important;text-align:center;justify-items:center;}
         }
         @media(max-width:560px){
@@ -397,59 +398,28 @@ export default function Index() {
         </div>
       </section>
 
-      {/* ПОД КЛЮЧ */}
+      {/* НАВЫКИ */}
       <section id="turnkey" style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)",borderBottom:`1px solid ${LINE}`,background:`${O}05` }}>
         <div style={{ maxWidth:"1200px",margin:"0 auto" }}>
 
-          {/* верхняя часть — два столбца */}
-          <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(40px,6vw,80px)",alignItems:"start",marginBottom:"clamp(48px,6vw,80px)" }} className="turnkey-grid">
-
-            {/* левая — главный текст */}
-            <div>
-              <div style={{ display:"flex",alignItems:"center",gap:"14px",marginBottom:"28px" }}>
-                <div style={{ width:"24px",height:"2px",background:O }}/>
-                <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".32em",color:O,textTransform:"uppercase" }}>// ЧТО ВЫ ПОЛУЧАЕТЕ</span>
-              </div>
-              <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(13px,1.3vw,15px)",color:MUTED,lineHeight:1.8,marginBottom:"20px" }}>
-                Я не делаю просмотры ради просмотров.
-              </p>
-              <p style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(22px,3vw,38px)",letterSpacing:"-0.02em",lineHeight:1.15,color:TEXT,marginBottom:"20px" }}>
-                Моя суперсила —<br/><span style={{ color:O }}>смыслы и триггеры.</span>
-              </p>
-              <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(13px,1.3vw,15px)",color:MUTED,lineHeight:1.8 }}>
-                Я знаю, почему люди досмотрят ролик до последней секунды. И это происходит точно не из-за красивого монтажа.
-              </p>
-            </div>
-
-            {/* правая — «в найм» */}
-            <div style={{ border:`1px solid ${O}40`,padding:"clamp(24px,3vw,40px)",position:"relative",overflow:"hidden" }}>
-              <div style={{ position:"absolute",top:0,left:0,right:0,height:"2px",background:`linear-gradient(to right,${O},transparent)` }}/>
-              <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:O,textTransform:"uppercase",marginBottom:"16px" }}>В поиске команды</div>
-              <p style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(18px,2vw,24px)",letterSpacing:"-0.01em",color:TEXT,lineHeight:1.3,marginBottom:"16px" }}>
-                Рассматриваю найм.<br/>Готов закрыть контент-направление изнутри.
-              </p>
-              <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(12px,1.2vw,14px)",color:MUTED,lineHeight:1.7 }}>
-                Не подрядчик на аутсорсе, а человек в команде: погружаюсь в продукт, беру ответственность за результат и работаю на общую цель бизнеса.
-              </p>
-            </div>
+          <div style={{ display:"flex",alignItems:"center",gap:"14px",marginBottom:"48px" }}>
+            <div style={{ width:"24px",height:"2px",background:O }}/>
+            <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".32em",color:O,textTransform:"uppercase" }}>// НАВЫКИ</span>
           </div>
 
-          {/* нижняя часть — бегущая лента навыков */}
-          <div>
-            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".2em",color:MUTED,textTransform:"uppercase",marginBottom:"20px" }}>Я полностью закрываю</div>
-            <div style={{ position:"relative",overflow:"hidden",borderTop:`1px solid ${LINE}`,borderBottom:`1px solid ${LINE}`,padding:"clamp(20px,3vw,32px) 0" }}>
-              <div style={{ position:"absolute",top:0,bottom:0,left:0,width:"60px",background:`linear-gradient(to right,${BG},transparent)`,zIndex:2 }}/>
-              <div style={{ position:"absolute",top:0,bottom:0,right:0,width:"60px",background:`linear-gradient(to left,${BG},transparent)`,zIndex:2 }}/>
-              <div className="skills-marquee">
-                {[...SKILLS,...SKILLS].map((s,i)=>(
-                  <div key={i} style={{ display:"flex",alignItems:"center",gap:"12px",padding:"0 clamp(20px,2.5vw,32px)",flexShrink:0 }}>
-                    <div style={{ width:"32px",height:"32px",border:`1px solid ${O}40`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
-                      <Icon name={s.icon} size={14} style={{ color:O }}/>
-                    </div>
-                    <span style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,fontSize:"clamp(13px,1.4vw,17px)",color:TEXT,whiteSpace:"nowrap" }}>{s.label}</span>
+          {/* бегущая лента навыков — ряд 1, вправо */}
+          <div style={{ position:"relative",overflow:"hidden",borderTop:`1px solid ${LINE}`,borderBottom:`1px solid ${LINE}`,padding:"clamp(20px,3vw,32px) 0" }}>
+            <div style={{ position:"absolute",top:0,bottom:0,left:0,width:"60px",background:`linear-gradient(to right,${BG},transparent)`,zIndex:2 }}/>
+            <div style={{ position:"absolute",top:0,bottom:0,right:0,width:"60px",background:`linear-gradient(to left,${BG},transparent)`,zIndex:2 }}/>
+            <div className="skills-marquee">
+              {[...SKILLS,...SKILLS].map((s,i)=>(
+                <div key={i} style={{ display:"flex",alignItems:"center",gap:"12px",padding:"0 clamp(20px,2.5vw,32px)",flexShrink:0 }}>
+                  <div style={{ width:"32px",height:"32px",border:`1px solid ${O}40`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+                    <Icon name={s.icon} size={14} style={{ color:O }}/>
                   </div>
-                ))}
-              </div>
+                  <span style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,fontSize:"clamp(13px,1.4vw,17px)",color:TEXT,whiteSpace:"nowrap" }}>{s.label}</span>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -634,36 +604,31 @@ export default function Index() {
 
       {/* CONTACT */}
       <section id="contact" ref={contactRef.ref} style={{ padding:"clamp(72px,10vw,140px) clamp(24px,6vw,80px)" }}>
-        <div style={{ maxWidth:"1200px",margin:"0 auto" }}>
-          <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(40px,6vw,80px)",alignItems:"center" }} className="contact-grid">
+        <div style={{ maxWidth:"760px",margin:"0 auto" }}>
+          <div style={{ display:"flex",alignItems:"center",gap:"14px",marginBottom:"40px",justifyContent:"center" }}>
+            <div style={{ width:"24px",height:"2px",background:O }}/>
+            <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".32em",color:O,textTransform:"uppercase" }}>// КОНТАКТ</span>
+          </div>
 
-            <div style={fade(contactRef.inView)}>
-              <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".32em",color:O,marginBottom:"20px",textTransform:"uppercase" }}>// КОНТАКТ</div>
-              <h2 style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:"clamp(36px,5.5vw,72px)",fontWeight:700,letterSpacing:"-0.03em",lineHeight:0.92,marginBottom:"26px" }}>
-                Давай<br/><span style={{ color:O }}>сделаем</span><br/>что-то<br/>крутое
-              </h2>
-
-            </div>
-
-            <div style={{ display:"flex",flexDirection:"column",gap:"1px",background:LINE,...fade(contactRef.inView,0.2) }}>
-              {[
-                { icon:"Phone",label:"+7 999 750-79-02",sub:"Позвонить",href:"tel:+79997507902" },
-                { icon:"Send",label:"@volodinevgeni",sub:"Telegram",href:"https://t.me/volodinevgeni" },
-                { icon:"Smartphone",label:"MAX",sub:"Мессенджер",href:"https://max.ru/u/f9LHodD0cOI1HZ6GuJWtDqzuOCB3w8GWNkqJBuJt6Sgj01nfPhsnQAQeuzk" },
-                { icon:"ExternalLink",label:"vk.com/kreeator",sub:"ВКонтакте",href:"https://vk.com/kreeator" },
-              ].map((ct,i)=>(
-                <a key={i} href={ct.href} target="_blank" rel="noreferrer" className="contact-row" style={{ display:"flex",alignItems:"center",gap:"18px",padding:"clamp(18px,2.5vw,26px) clamp(18px,3vw,32px)",background:CARD,textDecoration:"none",borderLeft:"3px solid transparent" }}>
-                  <div style={{ width:"38px",height:"38px",border:`1px solid ${LINE}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
-                    <Icon name={ct.icon as "Phone"} size={15} style={{ color:O }}/>
-                  </div>
-                  <div>
-                    <div style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,fontSize:"clamp(13px,1.4vw,16px)",color:TEXT }}>{ct.label}</div>
-                    <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".18em",color:MUTED,marginTop:"3px",textTransform:"uppercase" }}>{ct.sub}</div>
-                  </div>
-                  <Icon name="ArrowRight" size={13} style={{ color:MUTED,marginLeft:"auto" }}/>
-                </a>
-              ))}
-            </div>
+          <div style={{ display:"flex",flexDirection:"column",gap:"1px",background:LINE,...fade(contactRef.inView) }}>
+            {[
+              { icon:"Phone",label:"+7 999 750-79-02",sub:"Позвонить",href:"tel:+79997507902" },
+              { icon:"Mail",label:"kreeator@bk.ru",sub:"Почта",href:"mailto:kreeator@bk.ru" },
+              { icon:"Send",label:"@volodinevgeni",sub:"Telegram",href:"https://t.me/volodinevgeni" },
+              { icon:"Smartphone",label:"MAX",sub:"Мессенджер",href:"https://max.ru/u/f9LHodD0cOI1HZ6GuJWtDqzuOCB3w8GWNkqJBuJt6Sgj01nfPhsnQAQeuzk" },
+              { icon:"ExternalLink",label:"vk.com/kreeator",sub:"ВКонтакте",href:"https://vk.com/kreeator" },
+            ].map((ct,i)=>(
+              <a key={i} href={ct.href} target="_blank" rel="noreferrer" className="contact-row" style={{ display:"flex",alignItems:"center",gap:"18px",padding:"clamp(18px,2.5vw,26px) clamp(18px,3vw,32px)",background:CARD,textDecoration:"none",borderLeft:"3px solid transparent" }}>
+                <div style={{ width:"38px",height:"38px",border:`1px solid ${LINE}`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0 }}>
+                  <Icon name={ct.icon as "Phone"} size={15} style={{ color:O }}/>
+                </div>
+                <div>
+                  <div style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,fontSize:"clamp(13px,1.4vw,16px)",color:TEXT }}>{ct.label}</div>
+                  <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".18em",color:MUTED,marginTop:"3px",textTransform:"uppercase" }}>{ct.sub}</div>
+                </div>
+                <Icon name="ArrowRight" size={13} style={{ color:MUTED,marginLeft:"auto" }}/>
+              </a>
+            ))}
           </div>
         </div>
       </section>
