@@ -28,35 +28,20 @@ const LINE = "#222";
 const TEXT = "#F2F0EB";
 const MUTED = "rgba(242,240,235,0.45)";
 
-const SKILL_GROUPS = [
-  {
-    title: "Смыслы и стратегия",
-    items: [
-      { icon: "Map", label: "Разработка стратегии" },
-      { icon: "GitBranch", label: "Контент-воронки" },
-      { icon: "FileText", label: "Написание сценариев" },
-      { icon: "Megaphone", label: "PR и работа со СМИ" },
-    ],
-  },
-  {
-    title: "Продакшн",
-    items: [
-      { icon: "Clapperboard", label: "Режиссура" },
-      { icon: "Camera", label: "Операторская работа" },
-      { icon: "Scissors", label: "Монтаж" },
-      { icon: "Palette", label: "Дизайн" },
-    ],
-  },
-  {
-    title: "Публичность и продвижение",
-    items: [
-      { icon: "BarChart2", label: "SMM-сопровождение" },
-      { icon: "Mic", label: "Публичные выступления" },
-      { icon: "Video", label: "Работа в кадре" },
-      { icon: "CalendarDays", label: "Организация мероприятий" },
-      { icon: "Cpu", label: "Нейросети" },
-    ],
-  },
+const SKILLS = [
+  { icon: "Map", label: "Разработка стратегии" },
+  { icon: "GitBranch", label: "Контент-воронки" },
+  { icon: "FileText", label: "Написание сценариев" },
+  { icon: "Megaphone", label: "PR и работа со СМИ" },
+  { icon: "Clapperboard", label: "Режиссура" },
+  { icon: "Camera", label: "Операторская работа" },
+  { icon: "Scissors", label: "Монтаж" },
+  { icon: "Palette", label: "Дизайн" },
+  { icon: "BarChart2", label: "SMM-сопровождение" },
+  { icon: "Mic", label: "Публичные выступления" },
+  { icon: "Video", label: "Работа в кадре" },
+  { icon: "CalendarDays", label: "Организация мероприятий" },
+  { icon: "Cpu", label: "Нейросети" },
 ];
 
 const PROS = [
@@ -421,21 +406,11 @@ export default function Index() {
             <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"10px",letterSpacing:".32em",color:O,textTransform:"uppercase" }}>// НАВЫКИ</span>
           </div>
 
-          <div style={{ display:"flex",flexDirection:"column",gap:"1px",background:LINE }} className="skills-groups">
-            {SKILL_GROUPS.map((g,gi)=>(
-              <div key={gi} style={{ background:BG,padding:"clamp(20px,2.6vw,32px)",...fade(skillsRef.inView,gi*0.1) }}>
-                <div style={{ display:"flex",alignItems:"center",gap:"10px",marginBottom:"20px" }}>
-                  <span style={{ fontFamily:"'Space Mono',monospace",fontSize:"clamp(20px,2.4vw,28px)",fontWeight:700,color:`${O}30` }}>{String(gi+1).padStart(2,"0")}</span>
-                  <span style={{ fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(14px,1.5vw,17px)",color:TEXT }}>{g.title}</span>
-                </div>
-                <div style={{ display:"flex",flexWrap:"wrap",gap:"10px" }}>
-                  {g.items.map((s,i)=>(
-                    <div key={i} className="skill-pill" style={{ display:"inline-flex",alignItems:"center",gap:"9px",padding:"9px 16px",border:`1px solid ${LINE}`,transition:"all .25s" }}>
-                      <Icon name={s.icon} size={13} style={{ color:O }}/>
-                      <span style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(12px,1.2vw,13.5px)",color:TEXT,whiteSpace:"nowrap" }}>{s.label}</span>
-                    </div>
-                  ))}
-                </div>
+          <div style={{ display:"flex",flexWrap:"wrap",gap:"12px" }}>
+            {SKILLS.map((s,i)=>(
+              <div key={i} className="skill-pill" style={{ display:"inline-flex",alignItems:"center",gap:"10px",padding:"12px 20px",border:`1px solid ${LINE}`,background:BG,transition:"all .25s",...fade(skillsRef.inView,i*0.04) }}>
+                <Icon name={s.icon} size={14} style={{ color:O }}/>
+                <span style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(12.5px,1.25vw,14px)",color:TEXT,whiteSpace:"nowrap" }}>{s.label}</span>
               </div>
             ))}
           </div>
