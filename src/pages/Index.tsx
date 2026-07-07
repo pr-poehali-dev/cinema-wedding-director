@@ -308,12 +308,11 @@ export default function Index() {
           </div>
 
           <p style={{ fontFamily:"'Space Mono',monospace",fontSize:"clamp(9px,1vw,11px)",letterSpacing:".2em",textTransform:"uppercase",color:MUTED,marginBottom:"28px",lineHeight:1.9 }}>
-            Reels-продюсер · Контент-маркетолог · Режиссер монтажа
+            PR-менеджер · Контент-маркетолог
           </p>
 
           <p style={{ fontFamily:"'Inter',sans-serif",fontSize:"clamp(14px,1.4vw,16px)",lineHeight:1.75,color:MUTED,maxWidth:"420px",marginBottom:"40px" }}>
-            Больше 5 лет в создании и продвижении контента. Прошел путь от пресс-секретаря в МЧС до продюсера по контенту для бизнеса и экспертов. Знаю всю кухню изнутри - есть насмотренность, техническая база и понимание,{" "}
-            <span style={{ color:TEXT,fontWeight:500 }}>как привести проект к результату.</span>
+            Больше 5 лет в PR и контент-продюсировании. Прошел путь от пресс-секретаря МЧС до создания комплексных стратегий для бизнеса и экспертов. Я объединяю связи с общественностью и сильный продакшен: знаю, как выстроить имидж бренда, и понимаю всю внутреннюю кухню создания контента.
           </p>
 
           <div style={{ display:"flex",gap:"12px",flexWrap:"wrap",marginBottom:"48px" }}>
@@ -327,13 +326,6 @@ export default function Index() {
               onMouseOut={e=>{ e.currentTarget.style.borderColor=LINE;e.currentTarget.style.color=MUTED; }}>
               Написать
             </a>
-          </div>
-
-          {/* floating card */}
-          <div className="floating" style={{ display:"inline-flex",flexDirection:"column",background:CARD,border:`1px solid ${O}`,padding:"16px 22px",alignSelf:"flex-start" }}>
-            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",letterSpacing:".3em",color:O,marginBottom:"5px" }}>ОПЫТ</div>
-            <div style={{ fontFamily:"'Space Grotesk',sans-serif",fontSize:"28px",fontWeight:700,color:TEXT,lineHeight:1 }}>5+ лет</div>
-            <div style={{ fontFamily:"'Space Mono',monospace",fontSize:"8px",color:MUTED,marginTop:"4px" }}>в контент-продакшне</div>
           </div>
         </div>
 
